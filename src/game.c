@@ -21,8 +21,8 @@ void GameLoop(void)
     BeginTextureMode(a.buffer);
         ClearBackground((Color){178, 156, 151, 255});
 
+        DrawParallaxLayer(&g.layer, g.camera.target);
         BeginMode2D(g.camera);
-            DrawParallaxLayer(&g.layer, g.camera.target);
             DrawPlayer(&g.player, &a);
             DrawCursor(&a, mouse_position_world);
         EndMode2D();
@@ -47,17 +47,16 @@ void GameInit(void)
 {
     // Raylib stuff
     SetExitKey(KEY_F1);
-    /*HideCursor();*/
+    HideCursor();
 
     // My stuff
     LoadAssets(&a);
     PlayerInit(&g.player);
 
     g.layer = (ParallaxLayer) {
-        .speedY = 100,
-        .speedX = 0,
+        .speedY = 1,
+        .speedX = 1,
         .offset = (Vector2) {0, 0},
-        .position = (Vector2) {0, 0},
         .texture = a.background,
     };
     g.debug_collision = 1;

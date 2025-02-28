@@ -20,7 +20,8 @@
 #define WORLD_HEIGHT    216
 #define FULLSCREEN      0
 
-#define GRAVITY         -100
+#define PLAYER_SPEED    300
+#define GRAVITY         -200
 
 
 typedef struct Game {

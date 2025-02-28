@@ -3,7 +3,6 @@
 #include "include/collision.h"
 #include "include/game.h"
 #include "include/player.h"
-#include "include/logger.h"
 #include "include/sprite.h"
 #include "include/types.h"
 
@@ -11,10 +10,10 @@ void PlayerInit(Player* p)
 {
     p->hp = 5;
     p->power = 5;
-    p->speed = 100;
+    p->speed = PLAYER_SPEED;
     p->position = (Vector2) {
-        .x = 150,
-        .y = 100,
+        .x = 0,
+        .y = 0,
     };
     p->collision.pos = p->position;
     p->collision.box = (Rectangle) {

@@ -10,7 +10,6 @@ typedef struct ParallaxLayer {
     Texture2D texture;
     f32 speedX;
     f32 speedY;
-    Vector2 position;
     Vector2 offset;
 } ParallaxLayer;
 
