@@ -4,10 +4,15 @@ CMAKE_FLAGS = -G "MSYS Makefiles"
 
 all: desktop
 	./build/$(PROJECT_NAME)
+
+clean:
+	rm -r ./build/
+
 desktop:
 	([ ! -e ./build ] && cmake $(CMAKE_FLAGS) -S . -B build) || [ -e ./build ]
 	cmake --build build
 	cp -r ./resources/ ./build/
+
 desktop-release:
 	([ ! -e ./build ] && cmake $(CMAKE_FLAGS) -S . -B build) || [ -e ./build ]
 	cmake --build build --config Release
