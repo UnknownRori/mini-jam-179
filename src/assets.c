@@ -13,6 +13,9 @@ void LoadAssets(Assets *a)
     a->background = LoadTexture("resources/background.png");
     SetTextureFilter(a->background, TEXTURE_FILTER_POINT);
 
+    a->ui_slot = LoadTexture("resources/ui-slot.png");
+    SetTextureFilter(a->ui_slot, TEXTURE_FILTER_POINT);
+
     a->atlas = LoadTexture("resources/atlas.png");
     SetTextureFilter(a->atlas, TEXTURE_FILTER_POINT);
 

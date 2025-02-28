@@ -9,6 +9,7 @@
 #include "types.h"
 #include "assets.h"
 #include "player.h"
+#include "parallax.h"
 
 /*#define DEBUG           1*/
 #define SCREEN_WIDTH    1366
@@ -25,6 +26,8 @@
 typedef struct Game {
     Player player;
     Camera2D camera;
+
+    ParallaxLayer layer;
 
     bool debug_collision;
 } Game;
