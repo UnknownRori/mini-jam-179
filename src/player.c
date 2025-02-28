@@ -11,9 +11,10 @@ void PlayerInit(Player* p)
 {
     p->hp = 5;
     p->power = 5;
+    p->speed = 100;
     p->position = (Vector2) {
         .x = 150,
-        .y = 200,
+        .y = 100,
     };
     p->collision.pos = p->position;
     p->collision.box = (Rectangle) {
@@ -58,10 +59,20 @@ void DrawPlayer(Player* p, Assets *a)
 
 void UpdatePlayer(Player* p, Vector2 mouse)
 {
+    f32 delta = GetFrameTime();
     Vector2 dir = Vector2Subtract(p->position, mouse);
     f32 angle = atan2(dir.y, dir.x) * RAD2DEG;
     angle += 90;
 
     p->turret.rotation = angle;
     p->collision.pos = p->position;
+
+    if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
+        Vector2 dir_norm = Vector2Normalize(dir);
+        p->vel = Vector2Add(p->vel, Vector2Scale(dir_norm, p->speed));
+    }
+
+    p->vel = Vector2Scale(p->vel, 0.95);
+    p->vel.y -= GRAVITY * delta;
+    p->position = Vector2Add(p->position, Vector2Scale(p->vel, delta));
 }

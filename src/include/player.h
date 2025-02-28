@@ -3,6 +3,7 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
+#include <raylib.h>
 #include "sprite.h"
 #include "assets.h"
 #include "collision.h"
@@ -14,6 +15,8 @@ typedef struct Player {
 
     CollisionBox collision;
 
+    Vector2 vel;
+    f32 speed;
     f32 hp;
     f32 power;
 } Player;
