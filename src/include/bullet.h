@@ -21,6 +21,7 @@ typedef struct Bullet {
     CollisionBox collision;
 
     i32 group;
+    f32 damage;
     bool exist;
 } Bullet;
 

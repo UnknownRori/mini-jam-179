@@ -12,6 +12,7 @@ void SpawnEnemyBullet(Vector2 vel, Vector2 position)
     Bullet b = {
         .velocity = vel,
         .position = position,
+        .damage = 10,
         .collision = (CollisionBox) {
             .box = (Rectangle) {
                 .x = -4,
@@ -20,7 +21,7 @@ void SpawnEnemyBullet(Vector2 vel, Vector2 position)
                 .height = 8,
             },
         },
-        .group = PLAYER_BULLET_GROUP,
+        .group = ENEMY_BULLET_GROUP,
         .sprite = (Sprite) {
             .flipX = false,
             .rotation = 0,
@@ -39,6 +40,7 @@ void SpawnEnemyBullet(Vector2 vel, Vector2 position)
 void SpawnPlayerBullet(Vector2 vel, Vector2 position)
 {
     Bullet b = {
+        .damage = 10,
         .velocity = vel,
         .position = position,
         .collision = (CollisionBox) {
@@ -98,6 +100,15 @@ void UpdateBullet(Bullet *b)
     for (int i = 0; i < MAX_BULLET; i++) {
         Bullet *temp = &b[i];
         if (!temp->exist) continue;
+
+        if (temp->group == ENEMY_BULLET_GROUP) {
+            if (CheckCollisionBox(g.player.collision, temp->collision)) {
+                temp->exist = false;
+                g.player.hp -= temp->damage;
+                __LOG("%f", g.player.hp);
+                break;
+            }
+        }
 
         // Apply
         Vector2 vel = Vector2Scale(temp->velocity, delta);
