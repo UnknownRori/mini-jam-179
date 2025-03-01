@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.15)
-project(template)
+project(escape-velocity)
 
 #find_package(raylib 5.0 REQUIRED) # Requires at least version 3.0
 

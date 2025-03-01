@@ -1,5 +1,5 @@
 # Set the CMAKE_FLAGS
-PROJECT_NAME = template
+PROJECT_NAME = escape-velocity
 CMAKE_FLAGS = -G "MSYS Makefiles"
 
 all: desktop
