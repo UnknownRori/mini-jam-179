@@ -4,6 +4,7 @@
 #define PLAYER_H
 
 #include <raylib.h>
+#include <stdbool.h>
 #include "sprite.h"
 #include "assets.h"
 #include "collision.h"
@@ -19,6 +20,7 @@ typedef struct Player {
     f32 speed;
     f32 hp;
     f32 power;
+    bool collided;
 } Player;
 
 void PlayerInit(Player*);

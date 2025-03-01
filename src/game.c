@@ -6,6 +6,7 @@
 #include "include/player.h"
 #include "include/utils.h"
 #include "include/logger.h"
+#include "include/wall.h"
 
 Game g = {0};
 Assets a = {0};
@@ -15,6 +16,7 @@ void GameLoop(void)
     Vector2 mouse_position = GetMousePositionScaled();
     Vector2 mouse_position_world = GetScreenToWorld2D(mouse_position, g.camera);
     g.camera.target = g.player.position;
+    __LOG("Player : %f %f", g.player.position.x, g.player.position.y);
     UpdatePlayer(&g.player, mouse_position_world);
     BeginDrawing();
 
@@ -58,6 +60,14 @@ void GameInit(void)
         .speedX = 1,
         .offset = (Vector2) {0, 0},
         .texture = a.background,
+    };
+    g.wall_left = (Wall) {
+        .depth = 16,
+        .positionX = -105,
+    };
+    g.wall_right = (Wall) {
+        .depth = 16,
+        .positionX = 110,
     };
     g.debug_collision = 1;
     g.camera = (Camera2D) {

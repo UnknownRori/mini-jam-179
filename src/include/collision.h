@@ -9,6 +9,7 @@
 typedef struct CollisionBox {
     Vector2 pos;
     Rectangle box;
+    bool collided;
 } CollisionBox;
 
 void DrawCollisionBox(CollisionBox);

@@ -7,6 +7,7 @@
 #include <stdbool.h>
 
 #include "types.h"
+#include "wall.h"
 #include "assets.h"
 #include "player.h"
 #include "parallax.h"
@@ -29,6 +30,8 @@ typedef struct Game {
     Camera2D camera;
 
     ParallaxLayer layer;
+    Wall wall_left;
+    Wall wall_right;
 
     bool debug_collision;
 } Game;
