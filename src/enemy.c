@@ -89,7 +89,7 @@ void UpdateEnemy(EnemyBot *arr, Player *p)
         if (!temp->exists) continue;
         Vector2 dir = Vector2Subtract(p->position, temp->position);
         dir = Vector2Normalize(dir);
-        dir = Vector2Scale(dir, 15);
+        dir = Vector2Scale(dir, ENEMY_SPEED);
         dir = Vector2Scale(dir, delta);
         temp->position = Vector2Add(dir, temp->position);
         temp->collision.pos = temp->position;

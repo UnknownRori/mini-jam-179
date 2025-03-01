@@ -1,5 +1,6 @@
 #pragma once
 
+#include "bullet.h"
 #include "enemy.h"
 #ifndef GAME_H
 #define GAME_H
@@ -14,23 +15,28 @@
 #include "parallax.h"
 
 /*#define DEBUG           1*/
-#define SCREEN_WIDTH    1366
-#define SCREEN_HEIGHT   768
-#define GAME_WIDTH      384
-#define GAME_HEIGHT     216
-#define WORLD_WIDTH     384
-#define WORLD_HEIGHT    216
-#define FULLSCREEN      0
+#define SCREEN_WIDTH            1366
+#define SCREEN_HEIGHT           768
+#define GAME_WIDTH              384
+#define GAME_HEIGHT             216
+#define WORLD_WIDTH             384
+#define WORLD_HEIGHT            216
+#define FULLSCREEN              0
 
-#define PLAYER_SPEED    300
-#define GRAVITY         -200
+#define PLAYER_SPEED            300
+#define PLAYER_BULLET_SPEED     150
+#define ENEMY_SPEED             15
+#define ENEMY_BULLET_SPEED      200
+#define GRAVITY                 -200
 
-#define MAX_ENEMY       10
+#define MAX_ENEMY               10
+#define MAX_BULLET              200
 
 
 typedef struct Game {
     Player player;
     EnemyBot enemy[MAX_ENEMY];
+    Bullet bullet[MAX_BULLET];
 
     Camera2D camera;
 

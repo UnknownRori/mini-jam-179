@@ -1,5 +1,6 @@
 #include <raylib.h>
 #include <raymath.h>
+#include "include/bullet.h"
 #include "include/collision.h"
 #include "include/game.h"
 #include "include/player.h"
@@ -76,6 +77,9 @@ void UpdatePlayer(Player* p, Vector2 mouse)
     if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
         Vector2 dir_norm = Vector2Normalize(dir);
         p->vel = Vector2Add(p->vel, Vector2Scale(dir_norm, p->speed));
+        Vector2 vel = Vector2Scale(dir_norm, PLAYER_BULLET_SPEED);
+        vel = Vector2Rotate(vel, 180 * DEG2RAD);
+        SpawnPlayerBullet(vel, p->position);
     }
 
 

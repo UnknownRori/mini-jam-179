@@ -2,6 +2,7 @@
 #include <string.h>
 #include "include/game.h"
 #include "include/assets.h"
+#include "include/bullet.h"
 #include "include/cursor.h"
 #include "include/enemy.h"
 #include "include/parallax.h"
@@ -21,7 +22,9 @@ void GameLoop(void)
 
     SpawnEnemy(&g.camera, 10);
     DespawnEnemy(g.enemy, &g.camera);
+    DespawnBullet(g.bullet, &g.camera);
     UpdateEnemy(g.enemy, &g.player);
+    UpdateBullet(g.bullet);
     UpdatePlayer(&g.player, mouse_position_world);
 
     BeginDrawing();
@@ -33,6 +36,7 @@ void GameLoop(void)
         BeginMode2D(g.camera);
             DrawPlayer(&g.player, &a, mouse_position_world);
             DrawEnemy(g.enemy, &a);
+            DrawBullet(g.bullet, &a);
             DrawCursor(&a, mouse_position_world);
         EndMode2D();
 
