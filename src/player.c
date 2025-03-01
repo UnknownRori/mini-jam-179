@@ -1,6 +1,7 @@
 #include <raylib.h>
 #include <raymath.h>
 #include <assert.h>
+#include "include/audio.h"
 #include "include/bullet.h"
 #include "include/collision.h"
 #include "include/game.h"
@@ -80,27 +81,28 @@ void UpdatePlayer(Player* p, Vector2 mouse)
     p->turret.rotation = angle;
     p->collision.pos = p->position;
 
+    // Shoot
     if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
         Vector2 dir_norm = Vector2Normalize(dir);
         p->vel = Vector2Add(p->vel, Vector2Scale(dir_norm, p->speed));
         Vector2 vel = Vector2Scale(dir_norm, PLAYER_BULLET_SPEED);
         vel = Vector2Rotate(vel, 180 * DEG2RAD);
+
+        AudioManagerPlaySFXRandomPitch(0, 5, 15);
+
         SpawnPlayerBullet(vel, p->position);
     }
 
 
     // Collision
+    bool collision = false;
     if (WallIntersectCollisionBox(&g.wall_left, &p->collision) && !p->collided) {
         p->vel.x = -p->vel.x;
-        p->collided = true;
-    } else {
-        p->collided = false;
+        collision = true;
     }
     if (WallIntersectCollisionBox(&g.wall_right, &p->collision)&& !p->collided) {
         p->vel.x = -p->vel.x;
-        p->collided = true;
-    } else {
-        p->collided = false;
+        collision = true;
     }
     for (int i = 0; i < MAX_OBSTACLE; i++) {
         Obstacle *temp = &g.obstacle[i];
@@ -109,10 +111,15 @@ void UpdatePlayer(Player* p, Vector2 mouse)
         if (CheckCollisionObstacle(temp, &p->collision) && !p->collided) {
             p->vel.x = -(p->vel.x / 2.);
             p->vel.y = -p->vel.y;
-            p->collided = true;
+            collision = true;
             break;
-        } else {
-            p->collided = false;
+        }
+    }
+
+    p->collided = collision;
+    if (p->collided) {
+        if (!AudioManagerIsPlayingSFX(3)) {
+            AudioManagerPlaySFXRandomPitch(3, 5, 15);
         }
     }
 

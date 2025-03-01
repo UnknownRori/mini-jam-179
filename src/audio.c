@@ -28,7 +28,6 @@ void AudioManagerPlayCompoundSFX(int id) {
 void AudioManagerPlaySFXRandomPitch(int id, int min, int max) {
     assert(MAX_SFX > id);
     float pitch = (float)(GetRandomValue(min, max)) / 10.;
-    __LOG("%f", pitch);
     SetSoundPitch(a.sfx[id], pitch);
     SetSoundVolume(a.sfx[id], g_master * g_sfx);
     PlaySound(a.sfx[id]);
@@ -43,4 +42,8 @@ void AudioManagerPlaySFX(int id)
 void AudioManagerPlayMusic(int id) {
     assert(MAX_BGM > id);
     PlayMusicStream(a.bgm[id]);
+}
+bool AudioManagerIsPlayingSFX(int id) {
+    assert(MAX_SFX > id);
+    IsSoundPlaying(a.sfx[id]);
 }

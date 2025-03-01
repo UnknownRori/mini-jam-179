@@ -20,6 +20,7 @@ void AudioManagerSetBGMVolume(float);
 void AudioManagerPlayCompoundSFX(int id);
 void AudioManagerPlaySFXRandomPitch(int id, int min, int max);
 void AudioManagerPlaySFX(int id);
+bool AudioManagerIsPlayingSFX(int id);
 void AudioManagerPlayMusic(int id);
 
 #endif
