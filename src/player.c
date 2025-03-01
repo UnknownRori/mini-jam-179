@@ -47,7 +47,7 @@ void PlayerInit(Player* p)
         },
     };
 }
-void DrawPlayer(Player* p, Assets *a)
+void DrawPlayer(Player* p, Assets *a, Vector2 mouse)
 {
     if (g.debug_collision) {
         DrawCollisionBox(p->collision);
@@ -55,6 +55,10 @@ void DrawPlayer(Player* p, Assets *a)
     DrawSprite(a->atlas, p->core, p->position);
 
     DrawSprite(a->atlas, p->turret, p->position);
+
+    // AIM
+    Vector2 dir = Vector2Subtract(mouse, dir);
+    DrawLineV(p->position, dir, (Color) {116, 79, 70, 255});
 }
 
 
@@ -73,6 +77,7 @@ void UpdatePlayer(Player* p, Vector2 mouse)
         Vector2 dir_norm = Vector2Normalize(dir);
         p->vel = Vector2Add(p->vel, Vector2Scale(dir_norm, p->speed));
     }
+
 
     // Collision
     if (WallIntersectCollisionBox(&g.wall_left, &p->collision) && !p->collided) {

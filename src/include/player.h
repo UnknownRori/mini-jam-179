@@ -24,7 +24,7 @@ typedef struct Player {
 } Player;
 
 void PlayerInit(Player*);
-void DrawPlayer(Player*, Assets *a);
+void DrawPlayer(Player*, Assets *a, Vector2);
 //
 // @params  Player* - Player data
 // @params  Vector2 - mouse position

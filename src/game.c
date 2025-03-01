@@ -1,7 +1,9 @@
 #include <raylib.h>
+#include <string.h>
 #include "include/game.h"
 #include "include/assets.h"
 #include "include/cursor.h"
+#include "include/enemy.h"
 #include "include/parallax.h"
 #include "include/player.h"
 #include "include/utils.h"
@@ -16,8 +18,12 @@ void GameLoop(void)
     Vector2 mouse_position = GetMousePositionScaled();
     Vector2 mouse_position_world = GetScreenToWorld2D(mouse_position, g.camera);
     g.camera.target = g.player.position;
-    __LOG("Player : %f %f", g.player.position.x, g.player.position.y);
+
+    SpawnEnemy(&g.camera, 5);
+    DespawnEnemy(g.enemy, &g.camera);
+    UpdateEnemy(g.enemy, &g.player);
     UpdatePlayer(&g.player, mouse_position_world);
+
     BeginDrawing();
 
     BeginTextureMode(a.buffer);
@@ -25,7 +31,8 @@ void GameLoop(void)
 
         DrawParallaxLayer(&g.layer, g.camera.target);
         BeginMode2D(g.camera);
-            DrawPlayer(&g.player, &a);
+            DrawPlayer(&g.player, &a, mouse_position_world);
+            DrawEnemy(g.enemy, &a);
             DrawCursor(&a, mouse_position_world);
         EndMode2D();
 
@@ -55,6 +62,9 @@ void GameInit(void)
     LoadAssets(&a);
     PlayerInit(&g.player);
 
+    memset(g.enemy, 0, MAX_ENEMY);
+
+    InsertEnemy((Vector2) {0, 0});
     g.layer = (ParallaxLayer) {
         .speedY = 1,
         .speedX = 1,
@@ -63,7 +73,7 @@ void GameInit(void)
     };
     g.wall_left = (Wall) {
         .depth = 16,
-        .positionX = -105,
+        .positionX = -115,
     };
     g.wall_right = (Wall) {
         .depth = 16,

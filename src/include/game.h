@@ -1,5 +1,6 @@
 #pragma once
 
+#include "enemy.h"
 #ifndef GAME_H
 #define GAME_H
 
@@ -24,9 +25,13 @@
 #define PLAYER_SPEED    300
 #define GRAVITY         -200
 
+#define MAX_ENEMY       10
+
 
 typedef struct Game {
     Player player;
+    EnemyBot enemy[MAX_ENEMY];
+
     Camera2D camera;
 
     ParallaxLayer layer;
