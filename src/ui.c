@@ -2,9 +2,13 @@
 #include <stdio.h>
 #include "include/ui.h"
 #include "include/assets.h"
+#include "include/event.h"
 #include "include/game.h"
+#include "include/logger.h"
+#include "include/timer.h"
 #include "include/utils.h"
 
+float shake = 0;
 
 void DrawScore(i32 score, Assets *a)
 {
@@ -21,6 +25,15 @@ void DrawScore(i32 score, Assets *a)
 }
 void DrawHP(f32 current, f32 max, Assets *a)
 {
+    shake = MIN(0, shake - GetFrameTime());
+    shake = MAX(shake, 4);
+
+    EventType event = GetEvent();
+    if (event == EVENT_HP_DECREASE) {
+        shake += 1;
+        PopEvent();
+    }
+
     i32 hp = MIN(0, (current / max) * 5);
     // Draw Hearts
     Rectangle src = {
@@ -30,8 +43,8 @@ void DrawHP(f32 current, f32 max, Assets *a)
         .height = 16,
     };
     Rectangle dst = {
-        .x = 336,
-        .y = 200,
+        .x = 336 + Shake(shake),
+        .y = 200 + Shake(shake),
         .width = 16,
         .height = 16,
     };
@@ -42,8 +55,8 @@ void DrawHP(f32 current, f32 max, Assets *a)
     src.y = 152;
     src.width = 48;
     src.height = 88;
-    dst.x = 320;
-    dst.y = 113;
+    dst.x = 320 + Shake(shake);
+    dst.y = 113 + Shake(shake);
     dst.width = src.width;
     dst.height = src.height;
 
@@ -55,8 +68,8 @@ void DrawHP(f32 current, f32 max, Assets *a)
     src.width = 40;
     src.height = 16;
     for (int i = 0; i < hp; i++) {
-        dst.x = 323;
-        dst.y = 175 - (i * src.height - 4);
+        dst.x = 323 + Shake(shake);
+        dst.y = 175 - (i * src.height - 4) + Shake(shake);
         dst.width = src.width;
         dst.height = src.height;
         DrawTexturePro(a->atlas, src, dst, VECTOR_ZERO, 0, WHITE);

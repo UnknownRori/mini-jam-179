@@ -3,6 +3,7 @@
 #include <assert.h>
 #include "include/bullet.h"
 #include "include/collision.h"
+#include "include/event.h"
 #include "include/game.h"
 #include "include/logger.h"
 #include "include/sprite.h"
@@ -105,7 +106,7 @@ void UpdateBullet(Bullet *b)
             if (CheckCollisionBox(g.player.collision, temp->collision)) {
                 temp->exist = false;
                 g.player.hp -= temp->damage;
-                __LOG("%f", g.player.hp);
+                PushEvent(EVENT_HP_DECREASE);
                 break;
             }
         }

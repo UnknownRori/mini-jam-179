@@ -7,6 +7,7 @@
 #include "include/bullet.h"
 #include "include/cursor.h"
 #include "include/enemy.h"
+#include "include/event.h"
 #include "include/obstacle.h"
 #include "include/parallax.h"
 #include "include/player.h"
@@ -87,8 +88,9 @@ void GameInit(void)
     // My stuff
     LoadAssets(&a);
     PlayerInit(&g.player);
+    ResetEventBuffer();
 
-    memset(g.enemy, 0, MAX_ENEMY);
+    memset(g.enemy, 0, MAX_ENEMY * sizeof(EnemyBot));
 
     InsertEnemy((Vector2) {0, 0});
     InsertObstacle((Vector2) {.x = 50, .y = 200}, 8, 0);
