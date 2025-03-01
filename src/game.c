@@ -2,6 +2,7 @@
 #include <string.h>
 #include "include/game.h"
 #include "include/assets.h"
+#include "include/audio.h"
 #include "include/bullet.h"
 #include "include/cursor.h"
 #include "include/enemy.h"
@@ -69,6 +70,11 @@ void GameInit(void)
     // Raylib stuff
     SetExitKey(KEY_F1);
     HideCursor();
+
+    // Setup config
+    AudioManagerSetMasterVolume(1.);
+    AudioManagerSetSFXVolume(0.7);
+    AudioManagerSetBGMVolume(0.5);
 
     // My stuff
     LoadAssets(&a);

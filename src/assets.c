@@ -7,6 +7,13 @@ void UnloadAssets(Assets *a)
     UnloadTexture(a->atlas);
     UnloadFont(a->font);
     UnloadRenderTexture(a->buffer);
+
+    for (int i = 0; i < MAX_SFX; i++) {
+        UnloadSound(a->sfx[i]);
+    }
+    for (int i = 0; i < MAX_BGM; i++) {
+        UnloadMusicStream(a->bgm[i]);
+    }
 }
 void LoadAssets(Assets *a)
 {
@@ -24,4 +31,10 @@ void LoadAssets(Assets *a)
 
     a->buffer = LoadRenderTexture(GAME_WIDTH, GAME_HEIGHT);
     SetTextureFilter(a->buffer.texture, TEXTURE_FILTER_POINT);
+
+    a->sfx[0] = LoadSound("resources/shoot.wav");
+    a->sfx[1] = LoadSound("resources/enemy-shoot.wav");
+    a->sfx[2] = LoadSound("resources/explosion.wav");
+    a->sfx[3] = LoadSound("resources/hit-obstacle.wav");
+    a->sfx[4] = LoadSound("resources/hit-player.wav");
 }

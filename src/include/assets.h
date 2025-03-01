@@ -5,6 +5,9 @@
 
 #include <raylib.h>
 
+#define MAX_SFX 8
+#define MAX_BGM 2
+
 typedef struct Assets {
     Texture2D atlas;
     Texture2D background;
@@ -12,6 +15,9 @@ typedef struct Assets {
     Font font;
 
     RenderTexture2D buffer;
+
+    Sound sfx[MAX_SFX];
+    Music bgm[MAX_BGM];
 } Assets;
 
 void UnloadAssets(Assets*);
