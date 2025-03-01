@@ -1,11 +1,14 @@
+#include <raylib.h>
+#include <assert.h>
 #include "include/wall.h"
 #include "include/game.h"
 #include "include/logger.h"
-#include <raylib.h>
 
 
 bool WallIntersectCollisionBox(Wall* w, CollisionBox* c)
 {
+    assert(w != NULL);
+    assert(c != NULL);
     Rectangle w_rect = {
         .x = w->positionX,
         .y = 0,

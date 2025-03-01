@@ -1,16 +1,16 @@
 #include "include/parallax.h"
 
-#include <math.h>
 #include <raylib.h>
 #include <raymath.h>
+#include <math.h>
+#include <assert.h>
 
 #include "include/game.h"
 #include "include/logger.h"
 
-#define PARALAX_MIN -2
-
 void DrawParallaxLayer(ParallaxLayer *layer, Vector2 cameraPos)
 {
+    assert(layer != NULL);
     Vector2 offset = { cameraPos.x * layer->speedX + layer->offset.x, cameraPos.y * layer->speedY  + layer->offset.y };
 
     f32 width = layer->texture.width;

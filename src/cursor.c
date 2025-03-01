@@ -1,11 +1,13 @@
+#include <assert.h>
+#include <raylib.h>
 #include "include/cursor.h"
 #include "include/utils.h"
 #include "include/logger.h"
 #include "include/sprite.h"
-#include <raylib.h>
 
 void DrawCursor(Assets *a, Vector2 pos)
 {
+    assert(a != NULL);
     DrawSprite(a->atlas, (Sprite) {
         .rotation = 0,
         .scale = 1,

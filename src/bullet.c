@@ -1,5 +1,6 @@
 #include <raylib.h>
 #include <raymath.h>
+#include <assert.h>
 #include "include/bullet.h"
 #include "include/collision.h"
 #include "include/game.h"
@@ -78,6 +79,8 @@ void InsertBullet(Bullet bullet)
 // Array of enemy it will check if it out of bound
 void DrawBullet(Bullet *b, Assets *a)
 {
+    assert(b != NULL);
+    assert(a != NULL);
     for (int i = 0; i < MAX_BULLET; i++) {
         Bullet *temp = &b[i];
         if (!temp->exist) continue;
@@ -90,6 +93,7 @@ void DrawBullet(Bullet *b, Assets *a)
 }
 void UpdateBullet(Bullet *b)
 {
+    assert(b != NULL);
     f32 delta = GetFrameTime();
     for (int i = 0; i < MAX_BULLET; i++) {
         Bullet *temp = &b[i];
@@ -104,6 +108,8 @@ void UpdateBullet(Bullet *b)
 // Array of enemy it will check if it out of bound
 void DespawnBullet(Bullet *b, Camera2D *cam)
 {
+    assert(b != NULL);
+    assert(cam != NULL);
     for (int i = 0; i < MAX_ENEMY; i++) {
         Bullet *temp = &b[i];
         if (!temp->exist) continue;

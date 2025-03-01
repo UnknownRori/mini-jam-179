@@ -1,5 +1,6 @@
 #include <raylib.h>
 #include <raymath.h>
+#include <assert.h>
 #include "include/enemy.h"
 #include "include/collision.h"
 #include "include/game.h"
@@ -43,6 +44,7 @@ void InsertEnemy(Vector2 pos)
 
 void SpawnEnemy(Camera2D * cam, int threshold)
 {
+    assert(cam != NULL);
     int spawnValue = GetRandomValue(0, 1000);
     if (spawnValue > threshold) return;
     Vector2 min = {
@@ -58,6 +60,8 @@ void SpawnEnemy(Camera2D * cam, int threshold)
 }
 void DespawnEnemy(EnemyBot * arr, Camera2D * cam)
 {
+    assert(arr != NULL);
+    assert(cam != NULL);
     for (int i = 0; i < MAX_ENEMY; i++) {
         EnemyBot *temp = &g.enemy[i];
         if (!temp->exists) continue;
@@ -70,6 +74,8 @@ void DespawnEnemy(EnemyBot * arr, Camera2D * cam)
 
 void DrawEnemy(EnemyBot *arr, Assets *a)
 {
+    assert(arr != NULL);
+    assert(a != NULL);
     for (int i = 0; i < MAX_ENEMY; i++) {
         EnemyBot *temp = &g.enemy[i];
         if (!temp->exists) continue;
@@ -83,6 +89,8 @@ void DrawEnemy(EnemyBot *arr, Assets *a)
 
 void UpdateEnemy(EnemyBot *arr, Player *p)
 {
+    assert(arr != NULL);
+    assert(p != NULL);
     f32 delta = GetFrameTime();
     for (int i = 0; i < MAX_ENEMY; i++) {
         EnemyBot *temp = &g.enemy[i];

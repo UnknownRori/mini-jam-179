@@ -1,5 +1,6 @@
 #include <raylib.h>
 #include <raymath.h>
+#include <assert.h>
 #include "include/bullet.h"
 #include "include/collision.h"
 #include "include/game.h"
@@ -11,6 +12,7 @@
 
 void PlayerInit(Player* p)
 {
+    assert(p != NULL);
     p->hp = 5;
     p->power = 5;
     p->speed = PLAYER_SPEED;
@@ -50,6 +52,8 @@ void PlayerInit(Player* p)
 }
 void DrawPlayer(Player* p, Assets *a, Vector2 mouse)
 {
+    assert(p != NULL);
+    assert(a != NULL);
     if (g.debug_collision) {
         DrawCollisionBox(p->collision);
     }
@@ -65,6 +69,7 @@ void DrawPlayer(Player* p, Assets *a, Vector2 mouse)
 
 void UpdatePlayer(Player* p, Vector2 mouse)
 {
+    assert(p != NULL);
     // Movement
     f32 delta = GetFrameTime();
     Vector2 dir = Vector2Subtract(p->position, mouse);
