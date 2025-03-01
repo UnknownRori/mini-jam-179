@@ -42,6 +42,7 @@ typedef struct Game {
     Obstacle        obstacle[MAX_OBSTACLE];
 
     Camera2D        camera;
+    f32 shakeness;
 
     ParallaxLayer   layer;
     Wall            wall_left;

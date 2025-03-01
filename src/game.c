@@ -39,6 +39,8 @@ void GameLoop(void)
     UpdateBullet(g.bullet);
     UpdatePlayer(&g.player, mouse_position_world);
 
+    CameraShake(&g.camera, &g.shakeness, 1);
+
     BeginDrawing();
 
     BeginTextureMode(a.buffer);
