@@ -35,7 +35,7 @@
 #define MAX_ENEMY               10
 #define MAX_OBSTACLE            4
 #define MAX_BULLET              200
-#define MAX_LASER               50
+#define MAX_LASER               20
 #define MAX_WARNING_INFO        10
 
 

@@ -8,6 +8,7 @@
 #include "include/cursor.h"
 #include "include/enemy.h"
 #include "include/event.h"
+#include "include/laser.h"
 #include "include/obstacle.h"
 #include "include/parallax.h"
 #include "include/player.h"
@@ -35,10 +36,12 @@ void GameLoop(void)
     DespawnEnemy(g.enemy, &g.camera);
     DespawnBullet(g.bullet, &g.camera);
     DespawnObstacle(g.obstacle, &g.camera);
+    DespawnLaser(g.laser);
 
     UpdateWarning(g.warning_info);
     UpdateEnemy(g.enemy, &g.player);
     UpdateBullet(g.bullet);
+    UpdateLaser(g.laser);
     UpdatePlayer(&g.player, mouse_position_world);
 
     CameraShake(&g.camera, &g.shakeness, 1);
@@ -55,6 +58,7 @@ void GameLoop(void)
             DrawEnemy(g.enemy, &a);
             DrawBullet(g.bullet, &a);
             DrawWarning(g.warning_info, &a);
+            DrawLaser(g.laser, &a);
             DrawCursor(&a, mouse_position_world);
         EndMode2D();
 
@@ -84,6 +88,8 @@ void GameReset()
     PlayerInit(&g.player);
     ResetEventBuffer();
 
+    InsertEnemyLaserSide((Vector2) {100, -50}, 8);
+    InsertEnemyLaserSide((Vector2) {-100, 40}, -4);
     InsertWarning((Vector2) {100, 0});
     InsertEnemy((Vector2) {0, 0});
     InsertObstacle((Vector2) {.x = 50, .y = 200}, 8, 0);
