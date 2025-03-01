@@ -76,20 +76,11 @@ void GameLoop(void)
 
     EndDrawing();
 }
-void GameInit(void)
+
+void GameReset()
 {
-    // Raylib stuff
-    SetExitKey(KEY_F1);
-    HideCursor();
-
-    // Setup config
-    AudioManagerSetMasterVolume(1.);
-    AudioManagerSetSFXVolume(0.7);
-    AudioManagerSetBGMVolume(0.5);
-
-    // My stuff
     memset(&g, 0, sizeof(Game));
-    LoadAssets(&a);
+
     PlayerInit(&g.player);
     ResetEventBuffer();
 
@@ -118,6 +109,24 @@ void GameInit(void)
         .offset = (Vector2){GAME_WIDTH / 2., GAME_HEIGHT / 2.},
         .target = (Vector2){0, 0},
     };
+
+}
+
+void GameInit(void)
+{
+    // Raylib stuff
+    SetExitKey(KEY_F1);
+    HideCursor();
+
+    // Setup config
+    AudioManagerSetMasterVolume(1.);
+    AudioManagerSetSFXVolume(0.7);
+    AudioManagerSetBGMVolume(0.5);
+
+    // My stuff
+    LoadAssets(&a);
+    GameReset();
+
 }
 void GameUnload(void)
 {
