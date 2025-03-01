@@ -19,7 +19,7 @@ void GameLoop(void)
     Vector2 mouse_position_world = GetScreenToWorld2D(mouse_position, g.camera);
     g.camera.target = g.player.position;
 
-    SpawnEnemy(&g.camera, 5);
+    SpawnEnemy(&g.camera, 10);
     DespawnEnemy(g.enemy, &g.camera);
     UpdateEnemy(g.enemy, &g.player);
     UpdatePlayer(&g.player, mouse_position_world);

@@ -1,6 +1,7 @@
 #include <raylib.h>
 #include <raymath.h>
 #include "include/enemy.h"
+#include "include/collision.h"
 #include "include/game.h"
 #include "include/logger.h"
 #include "include/player.h"
@@ -17,6 +18,14 @@ void InsertEnemy(Vector2 pos)
         temp->position = pos;
         temp->exists = true;
         temp->hp = 5;
+        temp->collision = (CollisionBox) {
+            .box = (Rectangle) {
+                .x = -8,
+                .y = -8,
+                .width = 16,
+                .height = 16,
+            },
+        };
         temp->sprite = (Sprite){
             .flipX = 0,
             .rotation = 0,
@@ -66,6 +75,9 @@ void DrawEnemy(EnemyBot *arr, Assets *a)
         if (!temp->exists) continue;
 
         DrawSprite(a->atlas, temp->sprite, temp->position);
+        if (g.debug_collision) {
+            DrawCollisionBox(temp->collision);
+        }
     }
 }
 
@@ -77,8 +89,9 @@ void UpdateEnemy(EnemyBot *arr, Player *p)
         if (!temp->exists) continue;
         Vector2 dir = Vector2Subtract(p->position, temp->position);
         dir = Vector2Normalize(dir);
-        dir = Vector2Scale(dir, 10);
+        dir = Vector2Scale(dir, 15);
         dir = Vector2Scale(dir, delta);
         temp->position = Vector2Add(dir, temp->position);
+        temp->collision.pos = temp->position;
     }
 }
