@@ -5,6 +5,7 @@
 #include "include/bullet.h"
 #include "include/cursor.h"
 #include "include/enemy.h"
+#include "include/obstacle.h"
 #include "include/parallax.h"
 #include "include/player.h"
 #include "include/utils.h"
@@ -34,6 +35,7 @@ void GameLoop(void)
 
         DrawParallaxLayer(&g.layer, g.camera.target);
         BeginMode2D(g.camera);
+            DrawObstacle(g.obstacle, &a);
             DrawPlayer(&g.player, &a, mouse_position_world);
             DrawEnemy(g.enemy, &a);
             DrawBullet(g.bullet, &a);
@@ -69,6 +71,8 @@ void GameInit(void)
     memset(g.enemy, 0, MAX_ENEMY);
 
     InsertEnemy((Vector2) {0, 0});
+    InsertObstacle((Vector2) {50, 50}, 8, 0);
+    InsertObstacle((Vector2) {50, 50}, 12, 1);
     g.layer = (ParallaxLayer) {
         .speedY = 1,
         .speedX = 1,

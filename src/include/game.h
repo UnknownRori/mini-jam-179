@@ -2,6 +2,7 @@
 
 #include "bullet.h"
 #include "enemy.h"
+#include "obstacle.h"
 #ifndef GAME_H
 #define GAME_H
 
@@ -30,21 +31,23 @@
 #define GRAVITY                 -200
 
 #define MAX_ENEMY               10
+#define MAX_OBSTACLE            3
 #define MAX_BULLET              200
 
 
 typedef struct Game {
-    Player player;
-    EnemyBot enemy[MAX_ENEMY];
-    Bullet bullet[MAX_BULLET];
+    Player          player;
+    EnemyBot        enemy[MAX_ENEMY];
+    Bullet          bullet[MAX_BULLET];
+    Obstacle        obstacle[MAX_OBSTACLE];
 
-    Camera2D camera;
+    Camera2D        camera;
 
-    ParallaxLayer layer;
-    Wall wall_left;
-    Wall wall_right;
+    ParallaxLayer   layer;
+    Wall            wall_left;
+    Wall            wall_right;
 
-    bool debug_collision;
+    bool            debug_collision;
 } Game;
 
 extern Game g;
