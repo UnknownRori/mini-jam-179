@@ -10,7 +10,7 @@ void UpdateGame(void);
 
 int main(void)
 {
-    InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Salvager");
+    InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Escape Velocity");
     if (FULLSCREEN) {
         ToggleFullscreen();
     }

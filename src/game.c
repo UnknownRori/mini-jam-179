@@ -21,9 +21,15 @@ void GameLoop(void)
     Vector2 mouse_position_world = GetScreenToWorld2D(mouse_position, g.camera);
     g.camera.target = g.player.position;
 
+    if (IsKeyPressed(KEY_F2)) {
+        g.debug_collision = !g.debug_collision;
+    }
+
     SpawnEnemy(&g.camera, 10);
+    SpawnObstacle(&g.camera, 20);
     DespawnEnemy(g.enemy, &g.camera);
     DespawnBullet(g.bullet, &g.camera);
+    DespawnObstacle(g.obstacle, &g.camera);
     UpdateEnemy(g.enemy, &g.player);
     UpdateBullet(g.bullet);
     UpdatePlayer(&g.player, mouse_position_world);
@@ -71,8 +77,8 @@ void GameInit(void)
     memset(g.enemy, 0, MAX_ENEMY);
 
     InsertEnemy((Vector2) {0, 0});
-    InsertObstacle((Vector2) {50, 50}, 8, 0);
-    InsertObstacle((Vector2) {50, 50}, 12, 1);
+    InsertObstacle((Vector2) {.x = 50, .y = 200}, 8, 0);
+    InsertObstacle((Vector2) {.x = 50, .y = 50}, 12, 1);
     g.layer = (ParallaxLayer) {
         .speedY = 1,
         .speedX = 1,

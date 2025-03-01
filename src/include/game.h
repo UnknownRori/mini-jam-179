@@ -31,7 +31,7 @@
 #define GRAVITY                 -200
 
 #define MAX_ENEMY               10
-#define MAX_OBSTACLE            3
+#define MAX_OBSTACLE            4
 #define MAX_BULLET              200
 
 
