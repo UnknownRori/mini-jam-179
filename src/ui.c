@@ -5,6 +5,7 @@
 #include "include/event.h"
 #include "include/game.h"
 #include "include/logger.h"
+#include "include/sprite.h"
 #include "include/timer.h"
 #include "include/utils.h"
 
@@ -73,5 +74,58 @@ void DrawHP(f32 current, f32 max, Assets *a)
         dst.width = src.width;
         dst.height = src.height;
         DrawTexturePro(a->atlas, src, dst, VECTOR_ZERO, 0, WHITE);
+    }
+}
+
+void InsertWarning(Vector2 pos)
+{
+    for (int i = 0; i < MAX_WARNING_INFO; i++) {
+        WarningInfo *temp = &g.warning_info[i];
+        if (temp->exist) continue;
+
+        temp->position = pos;
+        temp->many_blink = 4;
+        temp->sprite.flipX = false;
+        temp->sprite.rotation = 0;
+        temp->sprite.scale = 1;
+        temp->sprite.src.x = 48;
+        temp->sprite.src.y = 224;
+        temp->sprite.src.width = 16;
+        temp->sprite.src.height = 16;
+        temp->blink = TimerInit(0.8, true);
+        temp->many_blink = 8;
+        temp->exist = true;
+        break;
+    }
+}
+
+// WarningInfo should be an array
+void UpdateWarning(WarningInfo *w)
+{
+    for (int i = 0; i < MAX_WARNING_INFO; i++) {
+        WarningInfo *temp = &w[i];
+        if (!temp->exist) continue;
+
+        __LOG("%f, %d, %d", temp->blink.m_remaining, temp->many_blink, temp->blinking);
+        TimerUpdate(&temp->blink);
+        if (TimerCompleted(&temp->blink) && temp->blinking) {
+            temp->many_blink -= 1;
+            temp->blinking = false;
+        } else if (TimerCompleted(&temp->blink) && !temp->blinking) {
+            temp->blinking = true;
+        }
+        if (temp->many_blink < 0) temp->exist = false;
+    }
+}
+// WarningInfo should be an array
+void DrawWarning(WarningInfo *w, Assets *a)
+{
+    for (int i = 0; i < MAX_WARNING_INFO; i++) {
+        WarningInfo *temp = &w[i];
+        if (!temp->exist) continue;
+        if (temp->blinking) {
+            DrawSprite(a->atlas, temp->sprite, temp->position);
+        }
+
     }
 }

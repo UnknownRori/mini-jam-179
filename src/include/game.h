@@ -1,8 +1,6 @@
 #pragma once
 
-#include "bullet.h"
-#include "enemy.h"
-#include "obstacle.h"
+#include "ui.h"
 #ifndef GAME_H
 #define GAME_H
 
@@ -14,6 +12,10 @@
 #include "assets.h"
 #include "player.h"
 #include "parallax.h"
+#include "bullet.h"
+#include "enemy.h"
+#include "laser.h"
+#include "obstacle.h"
 
 /*#define DEBUG           1*/
 #define SCREEN_WIDTH            1366
@@ -33,14 +35,22 @@
 #define MAX_ENEMY               10
 #define MAX_OBSTACLE            4
 #define MAX_BULLET              200
+#define MAX_LASER               50
+#define MAX_WARNING_INFO        10
 
 
 typedef struct Game {
+    // GAME ENTITY
     Player          player;
     EnemyBot        enemy[MAX_ENEMY];
     Bullet          bullet[MAX_BULLET];
     Obstacle        obstacle[MAX_OBSTACLE];
+    Laser           laser[MAX_LASER];
 
+    // GAME UI
+    WarningInfo     warning_info[MAX_WARNING_INFO];
+
+    // GAME GLOBAL
     Camera2D        camera;
     f32 shakeness;
 
@@ -48,6 +58,7 @@ typedef struct Game {
     Wall            wall_left;
     Wall            wall_right;
 
+    // DEBUG
     bool            debug_collision;
 } Game;
 

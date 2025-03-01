@@ -36,6 +36,7 @@ void GameLoop(void)
     DespawnBullet(g.bullet, &g.camera);
     DespawnObstacle(g.obstacle, &g.camera);
 
+    UpdateWarning(g.warning_info);
     UpdateEnemy(g.enemy, &g.player);
     UpdateBullet(g.bullet);
     UpdatePlayer(&g.player, mouse_position_world);
@@ -53,6 +54,7 @@ void GameLoop(void)
             DrawPlayer(&g.player, &a, mouse_position_world);
             DrawEnemy(g.enemy, &a);
             DrawBullet(g.bullet, &a);
+            DrawWarning(g.warning_info, &a);
             DrawCursor(&a, mouse_position_world);
         EndMode2D();
 
@@ -86,12 +88,12 @@ void GameInit(void)
     AudioManagerSetBGMVolume(0.5);
 
     // My stuff
+    memset(&g, 0, sizeof(Game));
     LoadAssets(&a);
     PlayerInit(&g.player);
     ResetEventBuffer();
 
-    memset(g.enemy, 0, MAX_ENEMY * sizeof(EnemyBot));
-
+    InsertWarning((Vector2) {100, 0});
     InsertEnemy((Vector2) {0, 0});
     InsertObstacle((Vector2) {.x = 50, .y = 200}, 8, 0);
     InsertObstacle((Vector2) {.x = 50, .y = 50}, 12, 1);
