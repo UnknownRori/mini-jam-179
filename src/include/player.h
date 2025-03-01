@@ -19,6 +19,7 @@ typedef struct Player {
     Vector2 vel;
     f32 speed;
     f32 hp;
+    f32 max_hp;
     f32 power;
     bool collided;
 } Player;

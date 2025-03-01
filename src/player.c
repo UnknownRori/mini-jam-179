@@ -15,7 +15,8 @@
 void PlayerInit(Player* p)
 {
     assert(p != NULL);
-    p->hp = 5;
+    p->hp = 100;
+    p->max_hp = 100;
     p->power = 5;
     p->speed = PLAYER_SPEED;
     p->position = (Vector2) {

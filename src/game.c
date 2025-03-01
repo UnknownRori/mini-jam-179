@@ -1,5 +1,6 @@
 #include <raylib.h>
 #include <string.h>
+#include <math.h>
 #include "include/game.h"
 #include "include/assets.h"
 #include "include/audio.h"
@@ -9,6 +10,7 @@
 #include "include/obstacle.h"
 #include "include/parallax.h"
 #include "include/player.h"
+#include "include/ui.h"
 #include "include/utils.h"
 #include "include/logger.h"
 #include "include/wall.h"
@@ -28,9 +30,11 @@ void GameLoop(void)
 
     SpawnEnemy(&g.camera, 10);
     SpawnObstacle(&g.camera, 20);
+
     DespawnEnemy(g.enemy, &g.camera);
     DespawnBullet(g.bullet, &g.camera);
     DespawnObstacle(g.obstacle, &g.camera);
+
     UpdateEnemy(g.enemy, &g.player);
     UpdateBullet(g.bullet);
     UpdatePlayer(&g.player, mouse_position_world);
@@ -50,6 +54,8 @@ void GameLoop(void)
         EndMode2D();
 
         DrawTexture(a.ui_slot, 0, 0, WHITE);
+        DrawScore(MIN(0, -g.camera.target.y / 2.), &a);
+        DrawHP(g.player.hp, g.player.max_hp, &a);
     EndTextureMode();
 
     ClearBackground(WHITE);
