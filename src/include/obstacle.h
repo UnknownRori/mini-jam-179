@@ -41,6 +41,6 @@ void DespawnObstacle(Obstacle*, Camera2D *);
 // Require obstacle to be an array and it will despawn if it outside the camera
 void DrawObstacle(Obstacle*, Assets *);
 
-void CheckCollisionObstacle(Obstacle*, CollisionBox*);
+bool CheckCollisionObstacle(Obstacle*, CollisionBox*);
 
 #endif

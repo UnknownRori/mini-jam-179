@@ -99,6 +99,22 @@ void UpdateEnemy(EnemyBot *arr, Player *p)
         dir = Vector2Normalize(dir);
         dir = Vector2Scale(dir, ENEMY_SPEED);
         dir = Vector2Scale(dir, delta);
+
+        for (int i = 0; i < MAX_OBSTACLE; i++) {
+            Obstacle *temp_obs = &g.obstacle[i];
+            if (!temp_obs->exist) continue;
+
+            if (CheckCollisionObstacle(temp_obs, &temp->collision) && !temp->collided) {
+                dir.y = -dir.y; // push a bit?
+                temp->collided = true;
+                break;
+            } else {
+                temp->collided = false;
+            }
+        }
+
+
+        // Apply
         temp->position = Vector2Add(dir, temp->position);
         temp->collision.pos = temp->position;
     }

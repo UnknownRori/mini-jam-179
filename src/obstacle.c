@@ -139,4 +139,8 @@ void DespawnObstacle(Obstacle *obs, Camera2D * cam)
     }
 }
 
-void CheckCollisionObstacle(Obstacle*, CollisionBox*);
+bool CheckCollisionObstacle(Obstacle *b, CollisionBox *c)
+{
+    assert(b != NULL);
+    return CheckCollisionBox(b->collision, *c);
+}

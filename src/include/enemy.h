@@ -18,6 +18,7 @@ typedef struct EnemyBot {
     f32 hp;
 
     bool exists;
+    bool collided;
 } EnemyBot;
 
 void SpawnEnemy(Camera2D * cam, int threshold);

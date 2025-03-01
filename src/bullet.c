@@ -114,12 +114,23 @@ void DespawnBullet(Bullet *b, Camera2D *cam)
         Bullet *temp = &b[i];
         if (!temp->exist) continue;
 
+        bool hit_obstacle = false;
         bool is_on_bottom = temp->position.y > cam->target.y + GAME_HEIGHT;
         bool is_on_top = temp->position.y < cam->target.y - GAME_HEIGHT;
         bool is_hit_wall_left = WallIntersectCollisionBox(&g.wall_left, &temp->collision);
         bool is_hit_wall_right = WallIntersectCollisionBox(&g.wall_right, &temp->collision);
 
-        if (is_on_top || is_on_bottom || is_hit_wall_right || is_hit_wall_left) {
+        for (int i = 0; i < MAX_OBSTACLE; i++) {
+            Obstacle *temp_obs = &g.obstacle[i];
+            if (!temp_obs->exist) continue;
+
+            if (CheckCollisionObstacle(temp_obs, &temp->collision)) {
+                hit_obstacle = true;
+                break;
+            }
+        }
+
+        if (is_on_top || is_on_bottom || is_hit_wall_right || is_hit_wall_left || hit_obstacle) {
             __LOG("Despawn bullet %d", i);
             temp->exist = false;
         }

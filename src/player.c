@@ -6,6 +6,7 @@
 #include "include/game.h"
 #include "include/player.h"
 #include "include/logger.h"
+#include "include/obstacle.h"
 #include "include/sprite.h"
 #include "include/types.h"
 #include "include/wall.h"
@@ -101,9 +102,22 @@ void UpdatePlayer(Player* p, Vector2 mouse)
     } else {
         p->collided = false;
     }
+    for (int i = 0; i < MAX_OBSTACLE; i++) {
+        Obstacle *temp = &g.obstacle[i];
+        if (!temp->exist) continue;
+
+        if (CheckCollisionObstacle(temp, &p->collision) && !p->collided) {
+            p->vel.x = -(p->vel.x / 2.);
+            p->vel.y = -p->vel.y;
+            p->collided = true;
+            break;
+        } else {
+            p->collided = false;
+        }
+    }
 
     // Apply velocity
     p->vel = Vector2Scale(p->vel, 0.95);
-    p->vel.y -= GRAVITY * delta;
+    if (!p->collided) p->vel.y -= GRAVITY * delta;
     p->position = Vector2Add(p->position, Vector2Scale(p->vel, delta));
 }
