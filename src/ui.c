@@ -92,7 +92,7 @@ void InsertWarning(Vector2 pos)
         temp->sprite.src.y = 224;
         temp->sprite.src.width = 16;
         temp->sprite.src.height = 16;
-        temp->blink = TimerInit(0.8, true);
+        temp->blink = TimerInit(0.2, true);
         temp->many_blink = 8;
         temp->exist = true;
         break;
@@ -106,7 +106,6 @@ void UpdateWarning(WarningInfo *w)
         WarningInfo *temp = &w[i];
         if (!temp->exist) continue;
 
-        __LOG("%f, %d, %d", temp->blink.m_remaining, temp->many_blink, temp->blinking);
         TimerUpdate(&temp->blink);
         if (TimerCompleted(&temp->blink) && temp->blinking) {
             temp->many_blink -= 1;
