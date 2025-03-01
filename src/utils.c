@@ -2,6 +2,7 @@
 #include <raymath.h>
 #include "include/utils.h"
 #include "include/game.h"
+#include "include/logger.h"
 
 Vector2 GetMousePositionScaled()
 {
@@ -25,9 +26,14 @@ void CameraShake(Camera2D *c, f32* shakeness, f32 recover)
 {
     f32 shake = *shakeness;
     c->target = Vector2Add((Vector2) {
-        .x = GetRandomValue(-shake * 10, shake * 10) / 10.,
-        .y = GetRandomValue(-shake * 10, shake * 10) / 10.,
+        .x = Shake(shake),
+        .y = Shake(shake),
     }, c->target);
     *shakeness -= recover;
-    *shakeness = MAX(0.f, *shakeness);
+    *shakeness = MIN(*shakeness, 0);
+}
+
+f32 Shake(f32 shake)
+{
+    return GetRandomValue(-shake * 10, shake * 10) / 10.;
 }
