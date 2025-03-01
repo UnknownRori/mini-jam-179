@@ -10,12 +10,17 @@
 #include "types.h"
 #include "assets.h"
 #include "player.h"
+#include "timer.h"
 
 typedef struct EnemyBot {
     Sprite sprite;
     Vector2 position;
     CollisionBox collision;
+
     f32 hp;
+    f32 max_hp;
+
+    Timer shot_cooldown;
 
     bool exists;
     bool collided;

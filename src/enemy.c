@@ -2,11 +2,13 @@
 #include <raymath.h>
 #include <assert.h>
 #include "include/enemy.h"
+#include "include/bullet.h"
 #include "include/collision.h"
 #include "include/game.h"
 #include "include/logger.h"
 #include "include/player.h"
 #include "include/sprite.h"
+#include "include/timer.h"
 #include "include/utils.h"
 
 void InsertEnemy(Vector2 pos)
@@ -18,7 +20,9 @@ void InsertEnemy(Vector2 pos)
 
         temp->position = pos;
         temp->exists = true;
-        temp->hp = 5;
+        temp->hp = 25;
+        temp->max_hp = 25;
+        temp->shot_cooldown = TimerInit(4, true);
         temp->collision = (CollisionBox) {
             .box = (Rectangle) {
                 .x = -8,
@@ -95,7 +99,18 @@ void UpdateEnemy(EnemyBot *arr, Player *p)
     for (int i = 0; i < MAX_ENEMY; i++) {
         EnemyBot *temp = &g.enemy[i];
         if (!temp->exists) continue;
+        // Player Direction
         Vector2 dir = Vector2Subtract(p->position, temp->position);
+
+        TimerUpdate(&temp->shot_cooldown);
+
+        if (TimerCompleted(&temp->shot_cooldown)) {
+            Vector2 dir_shot = Vector2Normalize(dir);
+            dir_shot = Vector2Scale(dir_shot, ENEMY_BULLET_SPEED);
+            SpawnEnemyBullet(dir_shot, temp->position);
+        }
+
+        // Movement
         dir = Vector2Normalize(dir);
         dir = Vector2Scale(dir, ENEMY_SPEED);
         dir = Vector2Scale(dir, delta);

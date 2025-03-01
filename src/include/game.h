@@ -27,7 +27,7 @@
 #define PLAYER_SPEED            300
 #define PLAYER_BULLET_SPEED     150
 #define ENEMY_SPEED             15
-#define ENEMY_BULLET_SPEED      200
+#define ENEMY_BULLET_SPEED      100
 #define GRAVITY                 -200
 
 #define MAX_ENEMY               10
