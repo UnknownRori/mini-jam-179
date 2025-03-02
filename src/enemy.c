@@ -2,6 +2,7 @@
 #include <raymath.h>
 #include <assert.h>
 #include "include/enemy.h"
+#include "include/audio.h"
 #include "include/bullet.h"
 #include "include/collision.h"
 #include "include/game.h"
@@ -107,6 +108,8 @@ void UpdateEnemy(EnemyBot *arr, Player *p)
         if (TimerCompleted(&temp->shot_cooldown)) {
             Vector2 dir_shot = Vector2Normalize(dir);
             dir_shot = Vector2Scale(dir_shot, ENEMY_BULLET_SPEED);
+
+            AudioManagerPlaySFXRandomPitch(1, 5, 15);
             SpawnEnemyBullet(dir_shot, temp->position);
         }
 

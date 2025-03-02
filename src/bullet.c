@@ -2,6 +2,7 @@
 #include <raymath.h>
 #include <assert.h>
 #include "include/bullet.h"
+#include "include/audio.h"
 #include "include/collision.h"
 #include "include/event.h"
 #include "include/game.h"
@@ -106,6 +107,7 @@ void UpdateBullet(Bullet *b)
             if (CheckCollisionBox(g.player.collision, temp->collision)) {
                 temp->exist = false;
                 g.player.hp -= temp->damage;
+                AudioManagerPlaySFXRandomPitch(4, 5, 15);
                 PushEvent(EVENT_HP_DECREASE);
                 break;
             }

@@ -127,6 +127,7 @@ void UpdatePlayer(Player* p, Vector2 mouse)
             TimerUpdate(&temp->damage_timer);
             if (TimerCompleted(&temp->damage_timer)) {
                 p->hp -= temp->damage;
+                AudioManagerPlaySFXRandomPitch(4, 5, 15);
                 PushEvent(EVENT_HP_DECREASE);
             }
         } else {
