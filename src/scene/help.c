@@ -93,26 +93,28 @@ void HelpRender()
 
         DrawTextPro(a.font, "Help", pos_title, VECTOR_ZERO, 0, 12, 2, (Color) {176, 156, 151, 255});
         if (UITextButton("Back", (Vector2) {5, 10}, mouse_position, &a)) SceneChange(1);
-        DrawSprite(a.atlas, CURSOR_SPRITE, (Vector2) {70, 40});
-        UIText("Your cursor", (Vector2) {90, 30}, 8, &a);
-        UIText("Left click to shoot", (Vector2) {90, 40}, 8, &a);
+        DrawSprite(a.atlas, CURSOR_SPRITE, (Vector2) {30, 40});
+        UIText("Your cursor", (Vector2) {50, 30}, 8, &a);
+        UIText("Left click to shoot", (Vector2) {50, 40}, 8, &a);
+        UIText("Shoot cause go opposite direction", (Vector2) {50, 50}, 8, &a);
+        UIText("Your job is to go up", (Vector2) {50, 60}, 8, &a);
 
-        DrawSprite(a.atlas, PLAYER_SPRITE, (Vector2) {70, 70});
-        UIText("This is you", (Vector2) {90, 60}, 8, &a);
-        UIText("Avoid bullet & Laser", (Vector2) {90, 70}, 8, &a);
+        DrawSprite(a.atlas, PLAYER_SPRITE, (Vector2) {30, 90});
+        UIText("This is you", (Vector2) {50, 80}, 8, &a);
+        UIText("Avoid bullet & Laser", (Vector2) {50, 90}, 8, &a);
 
-        DrawSprite(a.atlas, HP_SPRITE, (Vector2) {70, 100});
-        UIText("HP item", (Vector2) {90, 90}, 8, &a);
-        UIText("Fill up your HP", (Vector2) {90, 100}, 8, &a);
+        DrawSprite(a.atlas, HP_SPRITE, (Vector2) {30, 120});
+        UIText("HP item", (Vector2) {50, 110}, 8, &a);
+        UIText("Fill up your HP", (Vector2) {50, 120}, 8, &a);
 
-        DrawSprite(a.atlas, ENERGY_SPRITE, (Vector2) {70, 130});
-        UIText("Energy item", (Vector2) {90, 120}, 8, &a);
-        UIText("Fill up your Energy", (Vector2) {90, 130}, 8, &a);
-        UIText("Shot uses energy", (Vector2) {90, 140}, 8, &a);
+        DrawSprite(a.atlas, ENERGY_SPRITE, (Vector2) {30, 150});
+        UIText("Energy item", (Vector2) {50, 140}, 8, &a);
+        UIText("Fill up your Energy", (Vector2) {50, 150}, 8, &a);
+        UIText("Shot uses energy", (Vector2) {50, 160}, 8, &a);
 
-        DrawSprite(a.atlas, ENEMY_ROBOT_SPRITE, (Vector2) {70, 170});
-        UIText("Enemy", (Vector2) {90, 160}, 8, &a);
-        UIText("Avoid getting shot", (Vector2) {90, 170}, 8, &a);
+        DrawSprite(a.atlas, ENEMY_ROBOT_SPRITE, (Vector2) {30, 190});
+        UIText("Enemy", (Vector2) {50, 180}, 8, &a);
+        UIText("Avoid getting shot", (Vector2) {50, 190}, 8, &a);
         DrawCursor(&a, mouse_position);
     EndTextureMode();
 }
