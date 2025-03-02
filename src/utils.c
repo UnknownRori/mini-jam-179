@@ -8,8 +8,8 @@ Vector2 GetMousePositionScaled()
 {
     Vector2 mouseScreen = GetMousePosition();
     Vector2 mouseGame = {
-        mouseScreen.x * GAME_WIDTH / SCREEN_WIDTH,
-        mouseScreen.y * GAME_HEIGHT / SCREEN_HEIGHT
+        mouseScreen.x * GAME_WIDTH / GetScreenSizeBasedResolution(g.resolution).x,
+        mouseScreen.y * GAME_HEIGHT / GetScreenSizeBasedResolution(g.resolution).y
     };
     return mouseGame;
 }

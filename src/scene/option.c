@@ -36,8 +36,45 @@ void OptionRender()
         if (UITextButton("Back", (Vector2) {5, 10}, mouse_position, &a)) SceneChange(1);
         // Resolution
         UIText("Resolution", (Vector2) {70, 30}, 8, &a);
-        UITextButton(">", (Vector2) {300, 50}, mouse_position, &a);
-        UITextButton("<", (Vector2) {50, 50}, mouse_position, &a);
+        if (UITextButton(">", (Vector2) {300, 50}, mouse_position, &a)) {
+            switch (g.resolution) {
+                case RESOLUTION_1366:
+                    g.resolution = RESOLUTION_900;
+                    break;
+                case RESOLUTION_900:
+                    g.resolution = RESOLUTION_600;
+                    break;
+                case RESOLUTION_600:
+                    g.resolution = RESOLUTION_1366;
+                    break;
+            }
+            SetWindowSize(GetScreenSizeBasedResolution(g.resolution).x, GetScreenSizeBasedResolution(g.resolution).y);
+        }
+        if (UITextButton("<", (Vector2) {50, 50}, mouse_position, &a)) {
+            switch (g.resolution) {
+                case RESOLUTION_1366:
+                    g.resolution = RESOLUTION_600;
+                    break;
+                case RESOLUTION_900:
+                    g.resolution = RESOLUTION_1366;
+                    break;
+                case RESOLUTION_600:
+                    g.resolution = RESOLUTION_900;
+                    break;
+            }
+            SetWindowSize(GetScreenSizeBasedResolution(g.resolution).x, GetScreenSizeBasedResolution(g.resolution).y);
+        }
+        switch (g.resolution) {
+            case RESOLUTION_1366:
+                UIText("1366 x 768", (Vector2) {130, 50}, 8, &a);
+                break;
+            case RESOLUTION_900:
+                UIText("900 x 506", (Vector2) {130, 50}, 8, &a);
+                break;
+            case RESOLUTION_600:
+                UIText("600 x 338", (Vector2) {130, 50}, 8, &a);
+                break;
+        }
         // Master
         sprintf(buffer, "Master (%d)", (i32)(AudioManagerGetMasterVolume() * 10));
         UIText(buffer, (Vector2) {70, 70}, 8, &a);
@@ -99,6 +136,11 @@ void OptionRender()
             AudioManagerGetSFXVolume(),
             1
         );
+        // Fullscreen
+        UIText("Full screen", (Vector2) {70, 200}, 8, &a);
+        if (UIToggleButton((Rectangle) {50, 200, 8, 8}, mouse_position, g.fullscreen)) {
+            ToggleFullscreen();
+        }
         DrawCursor(&a, mouse_position);
     EndTextureMode();
 }

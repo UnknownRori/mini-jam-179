@@ -311,3 +311,15 @@ void UIProgressBar(Rectangle size, f32 current, f32 max)
         .height = size.height
     }, (Color) {178, 156, 151, 255});
 }
+
+bool UIToggleButton(Rectangle size, Vector2 mouse, bool state)
+{
+    bool is_hovered = CheckCollisionPointRec(mouse, size);
+    Color color = !state ? (Color) {116, 79, 70, 255} : (Color) {178, 156, 151, 255};
+    color = is_hovered ? (Color) {178, 156, 151, 255} : color;
+
+    DrawRectangleRec(size, color);
+
+    if (is_hovered) return IsMouseButtonPressed(MOUSE_BUTTON_LEFT);
+    return false;
+}

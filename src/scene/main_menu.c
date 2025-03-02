@@ -18,6 +18,7 @@ void MainMenuInit()
         .offset = (Vector2) {0, 0},
         .texture = a.background,
     };
+    g.camera = (Camera2D){0};
 }
 
 void MainMenuUpdate()

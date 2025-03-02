@@ -3,6 +3,7 @@
 #include "include/game.h"
 #include "include/assets.h"
 #include "include/audio.h"
+#include "include/resolution.h"
 #include "include/scene.h"
 #include "include/timer.h"
 
@@ -26,7 +27,7 @@ void GameLoop(void)
         DrawTexturePro(
             a.buffer.texture,
             (Rectangle) {.x = 0, .y = 0, .width = a.buffer.texture.width, .height = -a.buffer.texture.height},
-            (Rectangle) {.x = 0, .y = 0, .width = SCREEN_WIDTH, .height = SCREEN_HEIGHT},
+            (Rectangle) {.x = 0, .y = 0, .width = GetScreenSizeBasedResolution(g.resolution).x, .height = GetScreenSizeBasedResolution(g.resolution).y},
             (Vector2) {0, 0},
             0,
             WHITE
@@ -50,6 +51,8 @@ void GameInit(void)
 
     // Hard Reset
     memset(&g, 0, sizeof(Game));
+    g.resolution = RESOLUTION_1366;
+    SetWindowSize(GetScreenSizeBasedResolution(g.resolution).x, GetScreenSizeBasedResolution(g.resolution).y);
 
     // My stuff
     LoadAssets(&a);

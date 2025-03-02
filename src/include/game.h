@@ -1,5 +1,6 @@
 #pragma once
 
+#include "resolution.h"
 #include "scene.h"
 #ifndef GAME_H
 #define GAME_H
@@ -71,6 +72,8 @@ typedef struct Game {
     WarningInfo     warning_info[MAX_WARNING_INFO];
 
     // GAME GLOBAL
+    Resolution      resolution;
+    bool            fullscreen;
     Camera2D        camera;
     f32 shakeness;
     i32 score;

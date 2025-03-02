@@ -15,6 +15,7 @@ void UnloadAssets(Assets *a)
         UnloadMusicStream(a->bgm[i]);
     }
 }
+
 void LoadAssets(Assets *a)
 {
     a->background = LoadTexture("resources/background.png");
