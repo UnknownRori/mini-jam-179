@@ -1,3 +1,4 @@
+#include <assert.h>
 #include <raylib.h>
 #include <raymath.h>
 #include "include/laser.h"
@@ -7,6 +8,8 @@
 #include "include/logger.h"
 #include "include/sprite.h"
 #include "include/timer.h"
+#include "include/ui.h"
+#include "include/utils.h"
 
 void InsertLaser(Laser l)
 {
@@ -61,6 +64,7 @@ void InsertEnemyLaserSide(Vector2 start_pos, i32 length, bool left)
 
 void RenderLaserRepeat(Laser *ar, i32 progress_step, Assets *a)
 {
+    assert(ar != NULL);
     for (int i = 0; i < progress_step; i++) {
         Vector2 pos = {
             .x = ar->start_position.x,
@@ -77,6 +81,7 @@ void RenderLaserRepeat(Laser *ar, i32 progress_step, Assets *a)
 
 void DrawLaser(Laser *arr, Assets *a)
 {
+    assert(arr != NULL);
     for (int i= 0; i < MAX_LASER; i++) {
         Laser *temp = &g.laser[i];
         if (!temp->exist) continue;
@@ -144,8 +149,31 @@ void DrawLaser(Laser *arr, Assets *a)
     }
 }
 
+void SpawnLaser(Camera2D *cam, i32 threshold)
+{
+    assert(cam != NULL);
+    int spawnValue = GetRandomValue(0, 1000);
+    if (spawnValue > threshold) return;
+    int is_left = GetRandomValue(0, 1);
+    f32 spawnPointY = GetRandomValue(cam->target.y - GAME_HEIGHT - 100, cam->target.y + GAME_HEIGHT);
+    i32 length = GetRandomValue(1, 20);
+    InsertWarning((Vector2) {
+        .x = is_left ? 100 : -100,
+        .y = spawnPointY,
+    });
+    InsertEnemyLaserSide(
+        (Vector2) {
+            .x = is_left ? 100 : -100,
+            .y = spawnPointY,
+        },
+        length,
+        is_left
+    );
+}
+
 void UpdateLaserCollision(Laser *temp, i32 progress_step)
 {
+    assert(temp != NULL);
     temp->collision.pos.x = temp->left ? temp->start_position.x - temp->sprite.src.width * progress_step + temp->sprite.src.width
         : temp->start_position.x;
     temp->collision.pos.y = temp->start_position.y;
@@ -156,6 +184,7 @@ void UpdateLaserCollision(Laser *temp, i32 progress_step)
 // This should be an array
 void UpdateLaser(Laser *arr)
 {
+    assert(arr != NULL);
     f32 delta = GetFrameTime();
     for (int i = 0; i < MAX_LASER; i++)
     {
@@ -206,6 +235,7 @@ void UpdateLaser(Laser *arr)
 
 void DespawnLaser(Laser *arr)
 {
+    assert(arr != NULL);
 
     for (int i = 0; i < MAX_LASER; i++)
     {

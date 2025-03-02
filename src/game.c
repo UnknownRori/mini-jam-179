@@ -32,6 +32,7 @@ void GameLoop(void)
 
     SpawnEnemy(&g.camera, 10);
     SpawnObstacle(&g.camera, 20);
+    SpawnLaser(&g.camera, 2);
 
     DespawnEnemy(g.enemy, &g.camera);
     DespawnBullet(g.bullet, &g.camera);
@@ -89,12 +90,12 @@ void GameReset()
     PlayerInit(&g.player);
     ResetEventBuffer();
 
-    InsertEnemyLaserSide((Vector2) {100, -50}, 8, true);
-    InsertEnemyLaserSide((Vector2) {-100, 40}, 18, false);
-    InsertWarning((Vector2) {100, 0});
-    InsertEnemy((Vector2) {0, 0});
-    InsertObstacle((Vector2) {.x = 50, .y = 200}, 8, 0);
-    InsertObstacle((Vector2) {.x = 50, .y = 50}, 12, 1);
+    /*InsertEnemyLaserSide((Vector2) {100, -50}, 8, true);*/
+    /*InsertEnemyLaserSide((Vector2) {-100, 40}, 18, false);*/
+    /*InsertWarning((Vector2) {100, 0});*/
+    /*InsertEnemy((Vector2) {0, 0});*/
+    /*InsertObstacle((Vector2) {.x = 50, .y = 200}, 8, 0);*/
+    /*InsertObstacle((Vector2) {.x = 50, .y = 50}, 12, 1);*/
     g.layer = (ParallaxLayer) {
         .speedY = 1,
         .speedX = 1,

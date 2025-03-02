@@ -43,7 +43,10 @@ void InsertEnemyLaserSide(Vector2 start_pos, i32 length, bool left);
 void InsertLaser(Laser);
 void DrawLaser(Laser *, Assets *);
 // This should be an array
+void SpawnLaser(Camera2D *, i32);
+// This should be an array
 void UpdateLaser(Laser *);
+// This should be an array
 void DespawnLaser(Laser *);
 
 #endif
