@@ -29,6 +29,9 @@ void LoadAssets(Assets *a)
     a->atlas = LoadTexture("resources/atlas.png");
     SetTextureFilter(a->atlas, TEXTURE_FILTER_POINT);
 
+    a->ui_dialog = LoadTexture("resources/ui-dialog.png");
+    SetTextureFilter(a->ui_dialog, TEXTURE_FILTER_POINT);
+
     a->font = LoadFont("resources/PressStart2P-Regular.ttf");
     SetTextureFilter(a->font.texture, TEXTURE_FILTER_POINT);
 

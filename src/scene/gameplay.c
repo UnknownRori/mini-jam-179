@@ -156,7 +156,6 @@ static void GameplayRender()
             DrawLaser(g.laser, &a);
             DrawAnimatedParticle(g.anim_particle, &a);
             DrawParticle(g.particle, &a);
-            DrawCursor(&a, mouse_position_world);
         EndMode2D();
 
         BeginBlendMode(BLEND_MULTIPLIED);
@@ -179,6 +178,7 @@ static void GameplayRender()
 
 
         if (g.state == GAME_STATE_PAUSED) {
+            DrawTexture(a.ui_dialog, 80, 20, WHITE);
             UIText("Game Paused", (Vector2) {115, 50}, 12, &a);
             if (UITextButton("Continue", (Vector2) {105, 90}, mouse_position, &a)) {
                 g.state = GAME_STATE_RUNNING;
@@ -191,24 +191,27 @@ static void GameplayRender()
             char buffer[32] = {0};
             sprintf(buffer, "SCORE : %d", g.score);
 
-            UIText("Game Over", (Vector2) {125, 50}, 12, &a);
-            UIText(buffer, (Vector2) {115, 95}, 8, &a);
+            DrawTexture(a.ui_dialog, 80, 20, WHITE);
+            UIText("Game Over", (Vector2) {125, 40}, 12, &a);
+            UIText(buffer, (Vector2) {115, 65}, 8, &a);
 
             sprintf(buffer, "HI SCORE : %d", g.high_score);
-            UIText(buffer, (Vector2) {115, 115}, 8, &a);
+            UIText(buffer, (Vector2) {115, 80}, 8, &a);
             if (g.score > g.high_score) UIText("New High Score!", (Vector2) {115, 75}, 8, &a);
-            if (UITextButton("Continue", (Vector2) {105, 150}, mouse_position, &a)) {
+            if (UITextButton("Continue", (Vector2) {105, 110}, mouse_position, &a)) {
                 SceneChange(0);
                 g.high_score = MIN(g.high_score, g.score);
                 SaveFileData("resources/score.txt", &g.high_score, sizeof(i32));
             }
-            if (UITextButton("Exit", (Vector2) {225, 150}, mouse_position, &a)) {
+            if (UITextButton("Exit", (Vector2) {225, 110}, mouse_position, &a)) {
                 SceneChange(1);
                 g.high_score = MIN(g.high_score, g.score);
                 SaveFileData("resources/score.txt", &g.high_score, sizeof(i32));
             }
         }
 
+
+        DrawCursor(&a, mouse_position);
     EndTextureMode();
 }
 
