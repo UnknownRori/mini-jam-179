@@ -28,6 +28,7 @@ typedef struct Item {
 
 void InsertItem(Item);
 void SpawnItem(Vector2, f32, ItemType);
+void DropRandomItem(Vector2, i32);
 // Item* should be an array
 void DrawItem(Item *, Assets *);
 // Item* should be an array

@@ -4,6 +4,7 @@
 #include "include/bullet.h"
 #include "include/audio.h"
 #include "include/collision.h"
+#include "include/enemy.h"
 #include "include/event.h"
 #include "include/game.h"
 #include "include/logger.h"
@@ -110,6 +111,24 @@ void UpdateBullet(Bullet *b)
                 AudioManagerPlaySFXRandomPitch(4, 5, 15);
                 PushEvent(EVENT_HP_DECREASE);
                 break;
+            }
+        }
+
+
+        if (temp->group == PLAYER_BULLET_GROUP) {
+            for (int i = 0; i < MAX_ENEMY; i++) {
+                EnemyBot *enemy = &g.enemy[i];
+                if (!enemy->exists) continue;
+                if (CheckCollisionBox(enemy->collision, temp->collision)) {
+                    Vector2 dir = Vector2Subtract(enemy->position, temp->position);
+                    Vector2 dir_normal = Vector2Normalize(dir);
+                    Vector2 dir_oposite = Vector2Scale(dir_normal, ENEMY_BULLET_SPEED);
+
+                    temp->exist = false;
+                    enemy->hp -= temp->damage;
+                    AudioManagerPlaySFXRandomPitch(6, 5, 15);
+                    break;
+                }
             }
         }
 

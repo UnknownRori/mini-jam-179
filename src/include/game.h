@@ -27,15 +27,19 @@
 #define WORLD_HEIGHT            216
 #define FULLSCREEN              0
 
+#define FRICTION                0.95
+
 #define PLAYER_SPEED            300
 #define PLAYER_BULLET_SPEED     150
 
-#define SHOOT_ENERGY_COST       2.5
+#define SHOOT_ENERGY_COST       2.
 
 #define ITEM_SPEED              15
 
-#define ENEMY_SPEED             15
+#define ENEMY_SPEED             5
+#define ENEMY_MAX_SPEED         40
 #define ENEMY_BULLET_SPEED      100
+#define ENEMY_DROP_CHANCE       700
 
 #define GRAVITY                 -200
 

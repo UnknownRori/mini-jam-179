@@ -15,6 +15,7 @@
 typedef struct EnemyBot {
     Sprite sprite;
     Vector2 position;
+    Vector2 vel;
     CollisionBox collision;
 
     f32 hp;

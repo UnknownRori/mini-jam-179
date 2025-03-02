@@ -6,6 +6,7 @@
 #include "include/bullet.h"
 #include "include/collision.h"
 #include "include/game.h"
+#include "include/item.h"
 #include "include/logger.h"
 #include "include/player.h"
 #include "include/sprite.h"
@@ -22,8 +23,8 @@ void InsertEnemy(Vector2 pos)
 
         temp->position = pos;
         temp->exists = true;
-        temp->hp = 25;
-        temp->max_hp = 25;
+        temp->hp = 10;
+        temp->max_hp = 10;
         temp->shot_cooldown = TimerInit(4, true);
         temp->collision = (CollisionBox) {
             .box = (Rectangle) {
@@ -71,8 +72,9 @@ void DespawnEnemy(EnemyBot * arr, Camera2D * cam)
     for (int i = 0; i < MAX_ENEMY; i++) {
         EnemyBot *temp = &g.enemy[i];
         if (!temp->exists) continue;
-        if (temp->position.y > cam->target.y + GAME_HEIGHT * 2) {
-        __LOG("Despawn enemy %d", i);
+        if (temp->position.y > cam->target.y + GAME_HEIGHT * 2 || temp->hp < 0) {
+            DropRandomItem(temp->position, ENEMY_DROP_CHANCE);
+            __LOG("Despawn enemy %d", i);
             temp->exists = false;
         }
     }
@@ -118,7 +120,6 @@ void UpdateEnemy(EnemyBot *arr, Player *p)
         // Movement
         dir = Vector2Normalize(dir);
         dir = Vector2Scale(dir, ENEMY_SPEED);
-        dir = Vector2Scale(dir, delta);
 
         for (int i = 0; i < MAX_OBSTACLE; i++) {
             Obstacle *temp_obs = &g.obstacle[i];
@@ -135,7 +136,10 @@ void UpdateEnemy(EnemyBot *arr, Player *p)
 
 
         // Apply
-        temp->position = Vector2Add(dir, temp->position);
+        temp->vel = Vector2Add(dir, temp->vel);
+        temp->vel = Vector2Scale(temp->vel, FRICTION);
+        temp->vel = Vector2Clamp(temp->vel, (Vector2) {-ENEMY_MAX_SPEED, -ENEMY_MAX_SPEED}, (Vector2){ENEMY_MAX_SPEED, ENEMY_MAX_SPEED});
+        temp->position = Vector2Add(temp->position, Vector2Scale(temp->vel, delta));
         temp->collision.pos = temp->position;
     }
 }

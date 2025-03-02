@@ -36,12 +36,21 @@ void DrawHP(f32 current, f32 max, Assets *a)
     static float shake = 0;
     static i32 blink = 0;
     static bool should_blink = false;
+    static bool should_heart_blink = false;
+    static Timer heart = {
+        .m_lifetime = 0.5,
+        .m_repeating = true,
+    };
     shake = MIN(0, shake - GetFrameTime());
     blink = MIN(0, blink - 1);
     shake = MAX(shake, 4);
 
     if (blink == 0) should_blink = false;
     if (blink % 4) should_blink = !should_blink;
+    if (current <= 20) {
+        TimerUpdate(&heart);
+        if (TimerCompleted(&heart)) should_heart_blink = !should_heart_blink;
+    }
 
     EventType event = GetEvent();
     if (event == EVENT_HP_DECREASE) {
@@ -64,7 +73,9 @@ void DrawHP(f32 current, f32 max, Assets *a)
         .width = 16,
         .height = 16,
     };
-    DrawTexturePro(a->atlas, src, dst, VECTOR_ZERO, 0, WHITE);
+    if (!should_heart_blink || !(current <= 20)) {
+        DrawTexturePro(a->atlas, src, dst, VECTOR_ZERO, 0, WHITE);
+    }
 
     // Draw Slot
     src.x = 0;
@@ -93,19 +104,34 @@ void DrawHP(f32 current, f32 max, Assets *a)
         }
         DrawTexturePro(a->atlas, src, dst, VECTOR_ZERO, 0, WHITE);
     }
+
+    if (current >= max) {
+        DrawTextPro(a->font, "MAX!", (Vector2) {328, 100}, VECTOR_ZERO, 0, 8, 2, (Color) {178, 156, 151, 255});
+    } else if (current <= 20) {
+        DrawTextPro(a->font, "LOW!", (Vector2) {24, 100}, VECTOR_ZERO, 0, 8, 2, (Color) {178, 156, 151, 255});
+    }
 }
 
 void DrawEnergy(f32 current, f32 max, Assets *a)
 {
     static float shake = 0;
+    static Timer battery = {
+        .m_lifetime = 0.5,
+        .m_repeating = true,
+    };
     static i32 blink = 0;
     static bool should_blink = false;
+    static bool should_battery_blink = false;
     shake = MIN(0, shake - GetFrameTime());
     blink = MIN(0, blink - 1);
     shake = MAX(shake, 4);
 
     if (blink == 0) should_blink = false;
     if (blink % 4) should_blink = !should_blink;
+    if (current <= 20) {
+        TimerUpdate(&battery);
+        if (TimerCompleted(&battery)) should_battery_blink = !should_battery_blink;
+    }
 
     EventType event = GetEvent();
     if (event == EVENT_ENERGY_DECREASE) {
@@ -128,7 +154,10 @@ void DrawEnergy(f32 current, f32 max, Assets *a)
         .width = 16,
         .height = 16,
     };
-    DrawTexturePro(a->atlas, src, dst, VECTOR_ZERO, 0, WHITE);
+
+    if (!should_battery_blink || !(current <= 20)) {
+        DrawTexturePro(a->atlas, src, dst, VECTOR_ZERO, 0, WHITE);
+    }
 
     // Draw Slot
     src.x = 0;
@@ -155,6 +184,12 @@ void DrawEnergy(f32 current, f32 max, Assets *a)
             break;
         }
         DrawTexturePro(a->atlas, src, dst, VECTOR_ZERO, 0, WHITE);
+    }
+
+    if (current >= max) {
+        DrawTextPro(a->font, "MAX!", (Vector2) {24, 100}, VECTOR_ZERO, 0, 8, 2, (Color) {178, 156, 151, 255});
+    } else if (current <= 20) {
+        DrawTextPro(a->font, "LOW!", (Vector2) {24, 100}, VECTOR_ZERO, 0, 8, 2, (Color) {178, 156, 151, 255});
     }
 }
 

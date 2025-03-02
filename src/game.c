@@ -31,8 +31,8 @@ void GameLoop(void)
         g.debug_collision = !g.debug_collision;
     }
 
-    SpawnEnemy(&g.camera, 10);
-    SpawnObstacle(&g.camera, 20);
+    SpawnEnemy(&g.camera, 7);
+    SpawnObstacle(&g.camera, 10);
     SpawnLaser(&g.camera, 2);
 
     DespawnEnemy(g.enemy, &g.camera);

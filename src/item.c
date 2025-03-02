@@ -35,6 +35,17 @@ const Sprite ENERGY_SPRITE = (Sprite) {
     },
 };
 
+void DropRandomItem(Vector2 pos, i32 threshold)
+{
+    int spawnValue = GetRandomValue(0, 1000);
+    if (spawnValue > threshold && g.player.power > 30 && g.player.hp > 30) return;
+    f32 amount = GetRandomValue(50, 80);
+    i32 type = GetRandomValue(1, 2);
+    if (g.player.power < 30) type = ITEM_TYPE_ENERGY;
+    if (g.player.hp < 30) type = ITEM_TYPE_ENERGY;
+    SpawnItem(pos, amount, type);
+}
+
 void SpawnItem(Vector2 pos, f32 amount, ItemType type)
 {
     Item item = {0};
