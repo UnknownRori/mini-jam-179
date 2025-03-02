@@ -36,5 +36,6 @@ void DrawWarning(WarningInfo*, Assets *);
 
 void UIText(const char *text, Vector2 pos, i32 font_size, Assets *a);
 bool UITextButton(const char *text, Vector2 pos, Vector2 mouse, Assets *a);
+void UIProgressBar(Rectangle size, f32 current, f32 max);
 
 #endif

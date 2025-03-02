@@ -17,6 +17,11 @@ typedef struct CompoundAudio
 void AudioManagerSetMasterVolume(float);
 void AudioManagerSetSFXVolume(float);
 void AudioManagerSetBGMVolume(float);
+
+float AudioManagerGetMasterVolume();
+float AudioManagerGetSFXVolume();
+float AudioManagerGetBGMVolume();
+
 void AudioManagerPlayCompoundSFX(int id);
 void AudioManagerPlaySFXRandomPitch(int id, int min, int max);
 void AudioManagerPlaySFX(int id);

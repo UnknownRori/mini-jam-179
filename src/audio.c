@@ -9,6 +9,19 @@ float g_master = 0;
 float g_sfx = 0;
 float g_bgm = 0;
 
+float AudioManagerGetMasterVolume()
+{
+    return g_master;
+}
+float AudioManagerGetSFXVolume()
+{
+    return g_sfx;
+}
+float AudioManagerGetBGMVolume()
+{
+    return g_bgm;
+}
+
 void AudioManagerSetMasterVolume(float master)
 {
     g_master = master;

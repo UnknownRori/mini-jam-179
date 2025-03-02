@@ -1,4 +1,5 @@
 #include <raylib.h>
+#include <raymath.h>
 #include <stdio.h>
 #include "include/ui.h"
 #include "include/assets.h"
@@ -294,4 +295,19 @@ bool UITextButton(const char *text, Vector2 pos, Vector2 mouse, Assets *a)
     DrawTextPro(a->font, text, pos, VECTOR_ZERO, 0, font_size, font_space, (Color) {116, 79, 70, 255});
 
     return false;
+}
+
+void UIProgressBar(Rectangle size, f32 current, f32 max)
+{
+    f32 currentPercentage = current / max;
+    f32 activeWidth = (size.width * currentPercentage);
+
+
+    DrawRectangleRec(size, (Color) {116, 79, 70, 255});
+    DrawRectangleRec((Rectangle) {
+        .x = size.x,
+        .y = size.y,
+        .width = activeWidth,
+        .height = size.height
+    }, (Color) {178, 156, 151, 255});
 }
