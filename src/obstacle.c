@@ -129,8 +129,8 @@ void DespawnObstacle(Obstacle *obs, Camera2D * cam)
         Obstacle *temp = &obs[i];
         if (!temp->exist) continue;
 
-        bool is_on_bottom = temp->position.y > cam->target.y + GAME_HEIGHT;
-        bool is_on_top = temp->position.y < cam->target.y - GAME_HEIGHT * 2;
+        bool is_on_bottom = temp->position.y > cam->target.y + GAME_HEIGHT * 3;
+        bool is_on_top = temp->position.y < cam->target.y - GAME_HEIGHT * 3;
 
         if (is_on_top || is_on_bottom) {
             __LOG("Despawn Obstacle %d", i);
