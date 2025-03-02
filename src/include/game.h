@@ -1,5 +1,6 @@
 #pragma once
 
+#include "scene.h"
 #ifndef GAME_H
 #define GAME_H
 
@@ -49,6 +50,7 @@
 #define MAX_LASER               20
 #define MAX_WARNING_INFO        10
 #define MAX_ITEM                10
+#define MAX_SCENE               4
 
 
 typedef struct Game {

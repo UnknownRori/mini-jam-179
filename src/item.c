@@ -64,10 +64,10 @@ void SpawnItem(Vector2 pos, f32 amount, ItemType type)
     item.follow = (CollisionBox) {
         .pos = pos,
         .box = (Rectangle) {
-            .x = -4 * 4,
-            .y = -4 * 4,
-            .width = 8 * 4,
-            .height = 8 * 4,
+            .x = -4 * 6,
+            .y = -4 * 6,
+            .width = 8 * 6,
+            .height = 8 * 6,
         },
     };
 
