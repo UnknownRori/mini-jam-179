@@ -60,7 +60,7 @@ jobs:
 
     - name: Copy the build output
       # Build your program with the given configuration
-      run: cp ./index.html ./dist/index.html && cp ./web-build/salvager.js ./dist && cp ./web-build/salvager.data ./dist && cp ./web-build/salvager.wasm ./dist
+      run: cp ./index.html ./dist/index.html && cp ./web-build/escape-velocity.js ./dist && cp ./web-build/escape-velocity.data ./dist && cp ./web-build/escape-velocity.wasm ./dist
 
     - name: Setup Pages
       uses: actions/configure-pages@v5
