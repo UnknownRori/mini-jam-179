@@ -59,7 +59,7 @@ void GameInit(void)
     SceneAdd(0, GetSceneGameplay());
     SceneAdd(1, GetSceneMainMenu());
     SceneAdd(2, GetSceneHelp());
-    SceneSwap(0);
+    SceneSwap(1);
 
 }
 
@@ -69,5 +69,5 @@ void GameUnload(void)
 }
 bool ShouldGameQuit(void)
 {
-    return false;
+    return g.should_quit;
 }

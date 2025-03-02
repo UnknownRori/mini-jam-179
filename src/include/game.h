@@ -68,6 +68,8 @@ typedef struct Game {
     // GAME GLOBAL
     Camera2D        camera;
     f32 shakeness;
+    i32 score;
+    i32 high_score;
 
     ParallaxLayer   layer;
     Wall            wall_left;
@@ -75,6 +77,7 @@ typedef struct Game {
 
     // DEBUG
     bool            debug_collision;
+    bool            should_quit;
 } Game;
 
 extern Game g;

@@ -34,4 +34,6 @@ void UpdateWarning(WarningInfo*);
 // WarningInfo should be an array
 void DrawWarning(WarningInfo*, Assets *);
 
+bool UITextButton(const char *text, Vector2 pos, Vector2 mouse, Assets *a);
+
 #endif

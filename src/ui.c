@@ -20,7 +20,7 @@ void DrawHPBar(i32 current, i32 max, Vector2 pos, Vector2 offset)
 
 void DrawScore(i32 score, Assets *a)
 {
-    char buffer[1024] = {0};
+    char buffer[32] = {0};
     Vector2 center = {
         .x = GAME_WIDTH / 2.,
         .y = 8,
@@ -243,4 +243,27 @@ void DrawWarning(WarningInfo *w, Assets *a)
         }
 
     }
+}
+
+
+bool UITextButton(const char *text, Vector2 pos, Vector2 mouse, Assets *a)
+{
+    const i32 font_size = 8;
+    const i32 font_space = 2;
+    Vector2 measure = MeasureTextEx(a->font, text, font_size, font_space);
+    Rectangle collision = (Rectangle) {
+        .x = pos.x,
+        .y = pos.y,
+        .width = measure.x,
+        .height = measure.y,
+    };
+    bool is_hovered = CheckCollisionPointRec(mouse, collision);
+    if (is_hovered) {
+        DrawTextPro(a->font, text, pos, VECTOR_ZERO, 0, font_size, font_space, (Color) {178, 156, 151, 255});
+        return IsMouseButtonPressed(MOUSE_BUTTON_LEFT);
+    }
+
+    DrawTextPro(a->font, text, pos, VECTOR_ZERO, 0, font_size, font_space, (Color) {116, 79, 70, 255});
+
+    return false;
 }

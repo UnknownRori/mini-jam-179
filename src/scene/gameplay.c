@@ -21,6 +21,8 @@
 #include "../include/utils.h"
 #include "../include/wall.h"
 
+bool pause = false;
+
 void GameReset()
 {
     memset(g.enemy, 0, sizeof(EnemyBot) * MAX_ENEMY);
@@ -79,6 +81,8 @@ void GameplayUpdate()
     if (IsKeyPressed(KEY_F2)) {
         g.debug_collision = !g.debug_collision;
     }
+    g.score = MIN(g.score, -g.camera.target.y / 2.);
+    g.high_score = MIN(g.high_score, g.score);
 
     SpawnEnemy(&g.camera, 7);
     SpawnObstacle(&g.camera, 10);
@@ -120,7 +124,7 @@ static void GameplayRender()
         EndMode2D();
 
         DrawTexture(a.ui_slot, 0, 0, WHITE);
-        DrawScore(MIN(0, -g.camera.target.y / 2.), &a);
+        DrawScore(g.score, &a);
         DrawHP(g.player.hp, g.player.max_hp, &a);
         DrawEnergy(g.player.power, g.player.max_power, &a);
     EndTextureMode();
