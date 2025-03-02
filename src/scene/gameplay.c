@@ -98,6 +98,8 @@ void GameplayUpdate()
         DespawnObstacle(g.obstacle, &g.camera);
         DespawnLaser(g.laser);
         DespawnItem(g.item, &g.camera);
+        DespawnAnimatedParticle(g.anim_particle);
+        DespawnParticle(g.particle);
 
         UpdateWarning(g.warning_info);
         UpdateEnemy(g.enemy, &g.player);
@@ -105,6 +107,8 @@ void GameplayUpdate()
         UpdateLaser(g.laser);
         UpdateItem(g.item);
         UpdatePlayer(&g.player, mouse_position_world);
+        UpdateAnimatedParticle(g.anim_particle);
+        UpdateParticle(g.particle);
 
         CameraShake(&g.camera, &g.shakeness, 1);
     }
@@ -151,6 +155,8 @@ static void GameplayRender()
             DrawItem(g.item, &a);
             DrawWarning(g.warning_info, &a);
             DrawLaser(g.laser, &a);
+            DrawAnimatedParticle(g.anim_particle, &a);
+            DrawParticle(g.particle, &a);
             DrawCursor(&a, mouse_position_world);
         EndMode2D();
 

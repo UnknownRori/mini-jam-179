@@ -92,11 +92,11 @@ void HelpRender()
         ClearBackground((Color){62, 32, 24, 255});
 
         DrawTextPro(a.font, "Help", pos_title, VECTOR_ZERO, 0, 12, 2, (Color) {176, 156, 151, 255});
-        if (UITextButton("Back", (Vector2) {5, 10}, mouse_position, &a)) SceneChange(1);
+        if (UITextButton("Back", (Vector2) {330, 10}, mouse_position, &a)) SceneChange(1);
         DrawSprite(a.atlas, CURSOR_SPRITE, (Vector2) {30, 40});
-        UIText("Your cursor", (Vector2) {50, 30}, 8, &a);
+        UIText("Your cursor", (Vector2) {50, 40}, 8, &a);
         UIText("Left click to shoot", (Vector2) {50, 40}, 8, &a);
-        UIText("Shoot cause go opposite direction", (Vector2) {50, 50}, 8, &a);
+        UIText("There is recoil mechanic", (Vector2) {50, 50}, 8, &a);
         UIText("Your job is to go up", (Vector2) {50, 60}, 8, &a);
 
         DrawSprite(a.atlas, PLAYER_SPRITE, (Vector2) {30, 90});

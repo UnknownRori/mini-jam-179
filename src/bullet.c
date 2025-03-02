@@ -8,6 +8,7 @@
 #include "include/event.h"
 #include "include/game.h"
 #include "include/logger.h"
+#include "include/particle.h"
 #include "include/sprite.h"
 
 void SpawnEnemyBullet(Vector2 vel, Vector2 position)
@@ -165,6 +166,7 @@ void DespawnBullet(Bullet *b, Camera2D *cam)
 
         if (is_on_top || is_on_bottom || is_hit_wall_right || is_hit_wall_left || hit_obstacle) {
             __LOG("Despawn bullet %d", i);
+            SpawnSmallExplosion(temp->position);
             temp->exist = false;
         }
     }

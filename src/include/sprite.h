@@ -19,4 +19,19 @@ typedef struct Sprite {
 // @params  Vector2 - position
 void DrawSprite(Texture2D, Sprite, Vector2);
 
+typedef struct AnimatedSprite {
+    int frame;
+    int maxFrame;
+    float frameDelay;
+    float defaultFrameDelay;
+
+    Rectangle src;
+    float scale;
+    float rotation;
+
+    bool flipX;
+} AnimatedSprite;
+
+void AnimatedSpriteDraw(Texture2D, AnimatedSprite *, Vector2);
+
 #endif

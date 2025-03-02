@@ -8,6 +8,7 @@
 #include "include/game.h"
 #include "include/item.h"
 #include "include/logger.h"
+#include "include/particle.h"
 #include "include/player.h"
 #include "include/sprite.h"
 #include "include/timer.h"
@@ -74,6 +75,8 @@ void DespawnEnemy(EnemyBot * arr, Camera2D * cam)
         if (!temp->exists) continue;
         if (temp->position.y > cam->target.y + GAME_HEIGHT * 2 || temp->hp < 0) {
             DropRandomItem(temp->position, ENEMY_DROP_CHANCE);
+            AudioManagerPlaySFXRandomPitch(2, 5, 15);
+            SpawnMediumExplosion(temp->position);
             __LOG("Despawn enemy %d", i);
             temp->exists = false;
         }

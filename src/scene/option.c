@@ -33,7 +33,7 @@ void OptionRender()
         ClearBackground((Color){62, 32, 24, 255});
 
         DrawTextPro(a.font, "Option", pos_title, VECTOR_ZERO, 0, 12, 2, (Color) {176, 156, 151, 255});
-        if (UITextButton("Back", (Vector2) {5, 10}, mouse_position, &a)) SceneChange(1);
+        if (UITextButton("Back", (Vector2) {330, 10}, mouse_position, &a)) SceneChange(1);
         // Resolution
         UIText("Resolution", (Vector2) {70, 30}, 8, &a);
         if (UITextButton(">", (Vector2) {300, 50}, mouse_position, &a)) {

@@ -18,6 +18,8 @@ Assets a = {0};
 
 void GameLoop(void)
 {
+    char buffer[32] = {0};
+    sprintf(buffer, "FPS : %d", GetFPS());
     SceneUpdate();
 
     BeginDrawing();
@@ -33,7 +35,8 @@ void GameLoop(void)
             0,
             WHITE
         );
-        DrawFPS(0, 0);
+        DrawText(buffer, 12, 12, 18, (Color) {178, 156, 151, 255});
+        DrawText("MEM : ± 152 M", 12, 34, 18, (Color) {178, 156, 151, 255});
 
     EndDrawing();
 }

@@ -23,7 +23,9 @@ void MainMenuInit()
 
 void MainMenuUpdate()
 {
-
+    SpawnCometRandomly(50);
+    UpdateParticle(g.particle);
+    DespawnParticle(g.particle);
 }
 
 void MainMenuRender()
@@ -41,6 +43,7 @@ void MainMenuRender()
         ClearBackground((Color){62, 32, 24, 255});
 
         DrawParallaxLayer(&g.layer, g.camera.target);
+        DrawParticle(g.particle, &a);
         DrawTextPro(a.font, buffer, (Vector2) {130, 180}, VECTOR_ZERO, 0, 8, 2, (Color) {176, 156, 151, 255});
         DrawTextPro(a.font, "Escape Velocity", pos_title, VECTOR_ZERO, 0, 10, 2, (Color) {176, 156, 151, 255});
         if (UITextButton("New Run", (Vector2) {155, 80}, mouse_position, &a)) SceneChange(0);

@@ -1,7 +1,5 @@
 #pragma once
 
-#include "resolution.h"
-#include "scene.h"
 #ifndef GAME_H
 #define GAME_H
 
@@ -19,6 +17,9 @@
 #include "obstacle.h"
 #include "item.h"
 #include "ui.h"
+#include "particle.h"
+#include "resolution.h"
+#include "scene.h"
 
 /*#define DEBUG           1*/
 #define SCREEN_WIDTH            1366
@@ -52,6 +53,7 @@
 #define MAX_WARNING_INFO        10
 #define MAX_ITEM                10
 #define MAX_SCENE               4
+#define MAX_PARTICLE            50
 
 typedef enum GameState {
     GAME_STATE_RUNNING,
@@ -61,32 +63,34 @@ typedef enum GameState {
 
 typedef struct Game {
     // GAME ENTITY
-    Player          player;
-    EnemyBot        enemy[MAX_ENEMY];
-    Bullet          bullet[MAX_BULLET];
-    Obstacle        obstacle[MAX_OBSTACLE];
-    Laser           laser[MAX_LASER];
-    Item            item[MAX_ITEM];
+    Player              player;
+    EnemyBot            enemy[MAX_ENEMY];
+    Bullet              bullet[MAX_BULLET];
+    Obstacle            obstacle[MAX_OBSTACLE];
+    Laser               laser[MAX_LASER];
+    Item                item[MAX_ITEM];
+    AnimatedParticle    anim_particle[MAX_PARTICLE];
+    Particle            particle[MAX_PARTICLE];
 
     // GAME UI
-    WarningInfo     warning_info[MAX_WARNING_INFO];
+    WarningInfo         warning_info[MAX_WARNING_INFO];
 
     // GAME GLOBAL
-    Resolution      resolution;
-    bool            fullscreen;
-    Camera2D        camera;
-    f32 shakeness;
-    i32 score;
-    i32 high_score;
-    GameState       state;
+    Resolution          resolution;
+    bool                fullscreen;
+    Camera2D            camera;
+    f32                 shakeness;
+    i32                 score;
+    i32                 high_score;
+    GameState           state;
 
-    ParallaxLayer   layer;
-    Wall            wall_left;
-    Wall            wall_right;
+    ParallaxLayer       layer;
+    Wall                wall_left;
+    Wall                wall_right;
 
     // DEBUG
-    bool            debug_collision;
-    bool            should_quit;
+    bool                debug_collision;
+    bool                should_quit;
 } Game;
 
 extern Game g;
