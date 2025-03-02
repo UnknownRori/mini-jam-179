@@ -42,7 +42,7 @@ void DropRandomItem(Vector2 pos, i32 threshold)
     f32 amount = GetRandomValue(50, 80);
     i32 type = GetRandomValue(1, 2);
     if (g.player.power < 30) type = ITEM_TYPE_ENERGY;
-    if (g.player.hp < 30) type = ITEM_TYPE_ENERGY;
+    if (g.player.hp < 30) type = ITEM_TYPE_HP;
     SpawnItem(pos, amount, type);
 }
 

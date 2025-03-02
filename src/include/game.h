@@ -34,7 +34,7 @@
 #define PLAYER_SPEED            300
 #define PLAYER_BULLET_SPEED     150
 
-#define SHOOT_ENERGY_COST       2.
+#define SHOOT_ENERGY_COST       1.
 
 #define ITEM_SPEED              15
 
