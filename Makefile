@@ -8,6 +8,10 @@ all: desktop
 clean:
 	rm -r ./build/
 
+clean-web:
+	rm -r ./dist
+	rm -r ./web-build
+
 desktop:
 	([ ! -e ./build ] && cmake $(CMAKE_FLAGS) -S . -B build) || [ -e ./build ]
 	cmake --build build
