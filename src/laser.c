@@ -1,6 +1,7 @@
 #include <raylib.h>
 #include <raymath.h>
 #include "include/laser.h"
+#include "include/assets.h"
 #include "include/collision.h"
 #include "include/game.h"
 #include "include/logger.h"
@@ -38,8 +39,8 @@ void InsertEnemyLaserSide(Vector2 start_pos, i32 length, bool left)
         .start_position = start_pos,
         .collision = (CollisionBox) {
             .box = {
-                .x = start_pos.x,
-                .y = start_pos.y,
+                .x = -(spr.src.width / 2.),
+                .y = -(spr.src.height / 2.),
                 .width = spr.src.width,
                 .height = spr.src.height,
             },
@@ -47,7 +48,7 @@ void InsertEnemyLaserSide(Vector2 start_pos, i32 length, bool left)
             .collided = false,
         },
         .damage = 10,
-        .damage_timer = TimerInit(2, true),
+        .damage_timer = TimerInit(0.5, true),
         .attack_timer = TimerInit(2, false),
         .sustain_timer = TimerInit(4, false),
         .decay_timer = TimerInit(2., false),
@@ -56,6 +57,22 @@ void InsertEnemyLaserSide(Vector2 start_pos, i32 length, bool left)
         .delay = 2,
         .length = length,
     });
+}
+
+void RenderLaserRepeat(Laser *ar, i32 progress_step, Assets *a)
+{
+    for (int i = 0; i < progress_step; i++) {
+        Vector2 pos = {
+            .x = ar->start_position.x,
+            .y = ar->start_position.y,
+        };
+        if (ar->left) {
+            pos.x -= (i * ar->sprite.src.width);
+        } else {
+            pos.x += (i * ar->sprite.src.width);
+        }
+        DrawSprite(a->atlas, ar->sprite, pos);
+    }
 }
 
 void DrawLaser(Laser *arr, Assets *a)
@@ -67,7 +84,7 @@ void DrawLaser(Laser *arr, Assets *a)
             case LASER_STATE_NONE:
                 // Do nothing
                 break;
-            case LASER_STATE_DELAY:
+            case LASER_STATE_DELAY: {
                 if (g.debug_collision) {
                     DrawRectangleLines(
                         temp->start_position.x,
@@ -77,6 +94,7 @@ void DrawLaser(Laser *arr, Assets *a)
                     );
                 }
                 break;
+            }
             case LASER_STATE_FIRING: {
                 if (g.debug_collision) {
                     DrawRectangleLines(
@@ -88,19 +106,7 @@ void DrawLaser(Laser *arr, Assets *a)
                 }
                 f32 progress = TimeProgress(&temp->attack_timer);
                 i32 progress_step = Lerp(temp->length, 1., progress);
-                /*i32 progress_step = 1. + (1. - progress) * (temp->length - 1.);*/
-                for (int i = 0; i < progress_step; i++) {
-                    Vector2 pos = {
-                        .x = temp->start_position.x,
-                        .y = temp->start_position.y,
-                    };
-                    if (temp->left) {
-                        pos.x -= (i * temp->sprite.src.width);
-                    } else {
-                        pos.x += (i * temp->sprite.src.width);
-                    }
-                    DrawSprite(a->atlas, temp->sprite, pos);
-                }
+                RenderLaserRepeat(temp, progress_step, a);
             }
                 break;
             case LASER_STATE_SUSTAIN: {
@@ -113,18 +119,7 @@ void DrawLaser(Laser *arr, Assets *a)
                         );
                     }
 
-                    for (int i = 0; i < temp->length; i++) {
-                        Vector2 pos = {
-                            .x = temp->start_position.x,
-                            .y = temp->start_position.y,
-                        };
-                        if (temp->left) {
-                            pos.x -= (i * temp->sprite.src.width);
-                        } else {
-                            pos.x += (i * temp->sprite.src.width);
-                        }
-                        DrawSprite(a->atlas, temp->sprite, pos);
-                    }
+                    RenderLaserRepeat(temp, temp->length, a);
                 }
                 break;
             case LASER_STATE_DECAY: {
@@ -138,20 +133,7 @@ void DrawLaser(Laser *arr, Assets *a)
                     }
                     f32 progress = TimeProgress(&temp->decay_timer);
                     i32 progress_step = Lerp(1., temp->length, progress);
-                    __LOG("%d", progress_step);
-
-                    for (int i = 0; i < progress_step; i++) {
-                        Vector2 pos = {
-                            .x = temp->start_position.x,
-                            .y = temp->start_position.y,
-                        };
-                        if (temp->left) {
-                            pos.x -= (i * temp->sprite.src.width);
-                        } else {
-                            pos.x += (i * temp->sprite.src.width);
-                        }
-                        DrawSprite(a->atlas, temp->sprite, pos);
-                }
+                    RenderLaserRepeat(temp, progress_step, a);
                 }
                 break;
         }
@@ -160,6 +142,15 @@ void DrawLaser(Laser *arr, Assets *a)
             DrawCollisionBox(temp->collision);
         }
     }
+}
+
+void UpdateLaserCollision(Laser *temp, i32 progress_step)
+{
+    temp->collision.pos.x = temp->left ? temp->start_position.x + temp->sprite.src.width : temp->start_position.x;
+    temp->collision.pos.y = temp->start_position.y;
+    f32 width = temp->sprite.src.width * progress_step;
+    temp->collision.box.width = temp->left ? -width : width;
+    temp->collision.box.height = temp->sprite.src.height;
 }
 
 // This should be an array
@@ -174,27 +165,42 @@ void UpdateLaser(Laser *arr)
             case LASER_STATE_NONE:
                 // Do nothing
                 break;
-            case LASER_STATE_DELAY:
+            case LASER_STATE_DELAY: {
                 temp->delay -= delta;
+
+                temp->collision.box.width = 0;
+                temp->collision.box.height = 0;
+
                 if (temp->delay < 0) temp->state = LASER_STATE_FIRING;
                 break;
-            case LASER_STATE_FIRING:
+            }
+            case LASER_STATE_FIRING: {
                 TimerUpdate(&temp->attack_timer);
+
+                f32 progress = TimeProgress(&temp->attack_timer);
+                i32 progress_step = Lerp(temp->length, 1., progress);
+                UpdateLaserCollision(temp, progress_step);
+
                 if (TimerCompleted(&temp->attack_timer)) temp->state = LASER_STATE_SUSTAIN;
                 break;
-            case LASER_STATE_SUSTAIN:
+            }
+            case LASER_STATE_SUSTAIN: {
                 TimerUpdate(&temp->sustain_timer);
-                if (TimerCompleted(&temp->sustain_timer)) temp->state = LASER_STATE_DECAY;
-                break;
-            case LASER_STATE_DECAY:
-                TimerUpdate(&temp->decay_timer);
-                break;
-        }
 
-        temp->collision.pos.x = temp->start_position.x;
-        temp->collision.pos.y = temp->start_position.y;
-        temp->collision.box.width = temp->sprite.src.width;
-        temp->collision.box.height = temp->sprite.src.height;
+                UpdateLaserCollision(temp, temp->length);
+
+                if (TimerCompleted(&temp->sustain_timer)) temp->state = LASER_STATE_DECAY;
+            }
+                break;
+            case LASER_STATE_DECAY: {
+                TimerUpdate(&temp->decay_timer);
+
+                f32 progress = TimeProgress(&temp->decay_timer);
+                i32 progress_step = Lerp(1., temp->length, progress);
+                UpdateLaserCollision(temp, progress_step);
+                break;
+            }
+        }
     }
 }
 

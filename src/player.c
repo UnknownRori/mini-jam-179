@@ -4,11 +4,14 @@
 #include "include/audio.h"
 #include "include/bullet.h"
 #include "include/collision.h"
+#include "include/event.h"
 #include "include/game.h"
 #include "include/player.h"
+#include "include/laser.h"
 #include "include/logger.h"
 #include "include/obstacle.h"
 #include "include/sprite.h"
+#include "include/timer.h"
 #include "include/types.h"
 #include "include/wall.h"
 
@@ -114,6 +117,21 @@ void UpdatePlayer(Player* p, Vector2 mouse)
             p->vel.y = -p->vel.y;
             collision = true;
             break;
+        }
+    }
+    for (int i = 0; i < MAX_LASER; i++) {
+        Laser *temp = &g.laser[i];
+        if (!temp->exist) continue;
+
+        if (CheckCollisionBox(temp->collision, p->collision)) {
+            TimerUpdate(&temp->damage_timer);
+            if (TimerCompleted(&temp->damage_timer)) {
+                p->hp -= temp->damage;
+                PushEvent(EVENT_HP_DECREASE);
+            }
+        } else {
+            TimerReset(&temp->damage_timer);
+            temp->damage_timer.m_completed = true;
         }
     }
 
