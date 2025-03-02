@@ -1,6 +1,5 @@
 #pragma once
 
-#include "ui.h"
 #ifndef GAME_H
 #define GAME_H
 
@@ -16,6 +15,8 @@
 #include "enemy.h"
 #include "laser.h"
 #include "obstacle.h"
+#include "item.h"
+#include "ui.h"
 
 /*#define DEBUG           1*/
 #define SCREEN_WIDTH            1366
@@ -28,9 +29,14 @@
 
 #define PLAYER_SPEED            300
 #define PLAYER_BULLET_SPEED     150
+
 #define SHOOT_ENERGY_COST       2.5
+
+#define ITEM_SPEED              15
+
 #define ENEMY_SPEED             15
 #define ENEMY_BULLET_SPEED      100
+
 #define GRAVITY                 -200
 
 #define MAX_ENEMY               10
@@ -38,6 +44,7 @@
 #define MAX_BULLET              200
 #define MAX_LASER               20
 #define MAX_WARNING_INFO        10
+#define MAX_ITEM                10
 
 
 typedef struct Game {
@@ -47,6 +54,7 @@ typedef struct Game {
     Bullet          bullet[MAX_BULLET];
     Obstacle        obstacle[MAX_OBSTACLE];
     Laser           laser[MAX_LASER];
+    Item            item[MAX_ITEM];
 
     // GAME UI
     WarningInfo     warning_info[MAX_WARNING_INFO];

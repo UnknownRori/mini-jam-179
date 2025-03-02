@@ -37,4 +37,5 @@ void LoadAssets(Assets *a)
     a->sfx[2] = LoadSound("resources/explosion.wav");
     a->sfx[3] = LoadSound("resources/hit-obstacle.wav");
     a->sfx[4] = LoadSound("resources/hit-player.wav");
+    a->sfx[5] = LoadSound("resources/pickup.wav");
 }
