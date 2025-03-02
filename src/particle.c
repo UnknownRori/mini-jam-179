@@ -125,9 +125,9 @@ void SpawnMediumExplosion(Vector2 position)
     InsertAnimatedParticle((AnimatedParticle) {
         .position = position,
         .velocity = VECTOR_ZERO,
-        .timeout = TimerInit(3, false),
+        .timeout = TimerInit(1., false),
         .sprite = (AnimatedSprite) {
-            .defaultFrameDelay = 1,
+            .defaultFrameDelay = 0.4,
             .maxFrame = 4,
             .src = (Rectangle) {.x = 0, .y = 80, .width = 16, .height = 16},
             .scale = 1,
@@ -141,9 +141,9 @@ void SpawnSmallExplosion(Vector2 position)
     InsertAnimatedParticle((AnimatedParticle) {
         .position = position,
         .velocity = VECTOR_ZERO,
-        .timeout = TimerInit(3, false),
+        .timeout = TimerInit(1., false),
         .sprite = (AnimatedSprite) {
-            .defaultFrameDelay = 1,
+            .defaultFrameDelay = 0.4,
             .maxFrame = 4,
             .src = (Rectangle) {.x = 0, .y = 96, .width = 8, .height = 8},
             .scale = 1,

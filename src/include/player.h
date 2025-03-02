@@ -1,5 +1,6 @@
 #pragma once
 
+#include "timer.h"
 #ifndef PLAYER_H
 #define PLAYER_H
 
@@ -22,6 +23,8 @@ typedef struct Player {
     f32 max_hp;
     f32 power;
     f32 max_power;
+
+    Timer damage_power_low;
     bool collided;
 } Player;
 

@@ -27,6 +27,7 @@ void PlayerInit(Player* p)
         .x = 0,
         .y = 0,
     };
+    p->damage_power_low = TimerInit(1, true);
     p->collision.pos = p->position;
     p->collision.box = (Rectangle) {
         .x = -7,
@@ -77,6 +78,20 @@ void DrawPlayer(Player* p, Assets *a, Vector2 mouse)
 void UpdatePlayer(Player* p, Vector2 mouse)
 {
     assert(p != NULL);
+
+    // Check Power
+    if (p->power <= 0) {
+        TimerUpdate(&p->damage_power_low);
+    } else {
+        TimerReset(&p->damage_power_low);
+    }
+
+    if (TimerCompleted(&p->damage_power_low)) {
+        p->hp -= PLAYER_DAMAGE_POWER_LOW;
+        AudioManagerPlaySFXRandomPitch(4, 5, 15);
+        PushEvent(EVENT_HP_DECREASE);
+    }
+
     // Movement
     f32 delta = GetFrameTime();
     Vector2 dir = Vector2Subtract(p->position, mouse);
@@ -87,7 +102,7 @@ void UpdatePlayer(Player* p, Vector2 mouse)
     p->collision.pos = p->position;
 
     // Shoot
-    if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && (g.player.power - SHOOT_ENERGY_COST) > 0) {
+    if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && (g.player.power - SHOOT_ENERGY_COST) >= 0) {
         Vector2 dir_norm = Vector2Normalize(dir);
         p->vel = Vector2Add(p->vel, Vector2Scale(dir_norm, p->speed));
         Vector2 vel = Vector2Scale(dir_norm, PLAYER_BULLET_SPEED);

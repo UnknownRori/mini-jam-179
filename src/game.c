@@ -20,6 +20,11 @@ void GameLoop(void)
 {
     char buffer[32] = {0};
     sprintf(buffer, "FPS : %d", GetFPS());
+
+    if (IsKeyPressed(KEY_F1)) {
+        g.debug_collision = !g.debug_collision;
+    }
+
     SceneUpdate();
 
     BeginDrawing();

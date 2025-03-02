@@ -28,6 +28,8 @@ void GameReset()
     memset(g.laser, 0, sizeof(Laser) * MAX_LASER);
     memset(g.item, 0, sizeof(Item) * MAX_ITEM);
     memset(g.obstacle, 0, sizeof(Obstacle) * MAX_OBSTACLE);
+    memset(g.particle, 0, sizeof(Particle) * MAX_PARTICLE);
+    memset(g.anim_particle, 0, sizeof(AnimatedParticle) * MAX_PARTICLE);
 
     PlayerInit(&g.player);
     ResetEventBuffer();
@@ -78,9 +80,6 @@ void GameplayUpdate()
     Vector2 mouse_position_world = GetScreenToWorld2D(mouse_position, g.camera);
     g.camera.target = g.player.position;
 
-    if (IsKeyPressed(KEY_F1)) {
-        g.debug_collision = !g.debug_collision;
-    }
     if (IsKeyPressed(KEY_ESCAPE) && g.state != GAME_STATE_GAME_OVER) {
         g.state = g.state == GAME_STATE_PAUSED ? GAME_STATE_RUNNING : GAME_STATE_PAUSED;
     }
@@ -160,6 +159,25 @@ static void GameplayRender()
             DrawCursor(&a, mouse_position_world);
         EndMode2D();
 
+        BeginBlendMode(BLEND_MULTIPLIED);
+        BeginShaderMode(a.lighting);
+            DrawTexturePro(
+                a.light_mask.texture,
+                (Rectangle) {.x = 0, .y = 0, .width = a.buffer.texture.width, .height = -a.buffer.texture.height},
+                (Rectangle) {.x = 0, .y = 0, .width = GAME_WIDTH, .height = GAME_HEIGHT},
+                (Vector2) {0, 0},
+                0,
+                WHITE
+            );
+        EndShaderMode();
+        EndBlendMode();
+
+        DrawTexture(a.ui_slot, 0, 0, WHITE);
+        DrawScore(g.score, &a);
+        DrawHP(g.player.hp, g.player.max_hp, &a);
+        DrawEnergy(g.player.power, g.player.max_power, &a);
+
+
         if (g.state == GAME_STATE_PAUSED) {
             UIText("Game Paused", (Vector2) {115, 50}, 12, &a);
             if (UITextButton("Continue", (Vector2) {105, 90}, mouse_position, &a)) {
@@ -190,24 +208,6 @@ static void GameplayRender()
                 SaveFileData("resources/score.txt", &g.high_score, sizeof(i32));
             }
         }
-
-        BeginBlendMode(BLEND_MULTIPLIED);
-        BeginShaderMode(a.lighting);
-            DrawTexturePro(
-                a.light_mask.texture,
-                (Rectangle) {.x = 0, .y = 0, .width = a.buffer.texture.width, .height = -a.buffer.texture.height},
-                (Rectangle) {.x = 0, .y = 0, .width = GAME_WIDTH, .height = GAME_HEIGHT},
-                (Vector2) {0, 0},
-                0,
-                WHITE
-            );
-        EndShaderMode();
-        EndBlendMode();
-
-        DrawTexture(a.ui_slot, 0, 0, WHITE);
-        DrawScore(g.score, &a);
-        DrawHP(g.player.hp, g.player.max_hp, &a);
-        DrawEnergy(g.player.power, g.player.max_power, &a);
 
     EndTextureMode();
 }
