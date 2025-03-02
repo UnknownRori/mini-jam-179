@@ -7,6 +7,8 @@ void UnloadAssets(Assets *a)
     UnloadTexture(a->atlas);
     UnloadFont(a->font);
     UnloadRenderTexture(a->buffer);
+    UnloadRenderTexture(a->light_mask);
+    UnloadShader(a->lighting);
 
     for (int i = 0; i < MAX_SFX; i++) {
         UnloadSound(a->sfx[i]);
@@ -32,6 +34,11 @@ void LoadAssets(Assets *a)
 
     a->buffer = LoadRenderTexture(GAME_WIDTH, GAME_HEIGHT);
     SetTextureFilter(a->buffer.texture, TEXTURE_FILTER_POINT);
+
+    a->light_mask = LoadRenderTexture(GAME_WIDTH, GAME_HEIGHT);
+    SetTextureFilter(a->buffer.texture, TEXTURE_FILTER_POINT);
+
+    a->lighting = LoadShader(0, "resources/lighting.fs");
 
     a->sfx[0] = LoadSound("resources/shoot.wav");
     a->sfx[1] = LoadSound("resources/enemy-shoot.wav");

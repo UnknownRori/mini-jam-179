@@ -42,6 +42,7 @@ typedef struct Laser {
 void InsertEnemyLaserSide(Vector2 start_pos, i32 length, bool left);
 void InsertLaser(Laser);
 void DrawLaser(Laser *, Assets *);
+void DrawLaserLightMask(Laser *);
 // This should be an array
 void SpawnLaser(Camera2D *, i32);
 // This should be an array

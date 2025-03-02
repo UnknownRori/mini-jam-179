@@ -15,6 +15,9 @@ typedef struct Assets {
     Font font;
 
     RenderTexture2D buffer;
+    RenderTexture2D light_mask;
+
+    Shader lighting;
 
     Sound sfx[MAX_SFX];
     Music bgm[MAX_BGM];

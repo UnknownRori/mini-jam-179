@@ -110,10 +110,35 @@ void GameplayUpdate()
     }
 }
 
+void DrawLightMask()
+{
+    BeginTextureMode(a.light_mask);
+        ClearBackground((Color) {106, 109, 132, 200});
+        DrawRectangle(0, 0, 82, 240, WHITE);
+        DrawRectangle(305, 0, 82, 240, WHITE);
+        BeginMode2D(g.camera);
+            DrawCircle(g.player.position.x, g.player.position.y, 80, WHITE);
+            DrawLaserLightMask(g.laser);
+            for (int i = 0; i < MAX_ITEM; i++) {
+                Item *temp = &g.item[i];
+                if (!temp->exist) continue;
+                DrawCircle(temp->position.x, temp->position.y, 20, WHITE);
+            }
+            for (int i = 0; i < MAX_BULLET; i++) {
+                Bullet *temp = &g.bullet[i];
+                if (!temp->exist) continue;
+                DrawCircle(temp->position.x, temp->position.y, 20, WHITE);
+            }
+        EndMode2D();
+    EndTextureMode();
+}
+
 static void GameplayRender()
 {
     Vector2 mouse_position = GetMousePositionScaled();
     Vector2 mouse_position_world = GetScreenToWorld2D(mouse_position, g.camera);
+    DrawLightMask();
+
     BeginTextureMode(a.buffer);
         ClearBackground((Color){178, 156, 151, 255});
 
@@ -128,11 +153,6 @@ static void GameplayRender()
             DrawLaser(g.laser, &a);
             DrawCursor(&a, mouse_position_world);
         EndMode2D();
-
-        DrawTexture(a.ui_slot, 0, 0, WHITE);
-        DrawScore(g.score, &a);
-        DrawHP(g.player.hp, g.player.max_hp, &a);
-        DrawEnergy(g.player.power, g.player.max_power, &a);
 
         if (g.state == GAME_STATE_PAUSED) {
             UIText("Game Paused", (Vector2) {115, 50}, 12, &a);
@@ -164,6 +184,25 @@ static void GameplayRender()
                 SaveFileData("resources/score.txt", &g.high_score, sizeof(i32));
             }
         }
+
+        BeginBlendMode(BLEND_MULTIPLIED);
+        BeginShaderMode(a.lighting);
+            DrawTexturePro(
+                a.light_mask.texture,
+                (Rectangle) {.x = 0, .y = 0, .width = a.buffer.texture.width, .height = -a.buffer.texture.height},
+                (Rectangle) {.x = 0, .y = 0, .width = GAME_WIDTH, .height = GAME_HEIGHT},
+                (Vector2) {0, 0},
+                0,
+                WHITE
+            );
+        EndShaderMode();
+        EndBlendMode();
+
+        DrawTexture(a.ui_slot, 0, 0, WHITE);
+        DrawScore(g.score, &a);
+        DrawHP(g.player.hp, g.player.max_hp, &a);
+        DrawEnergy(g.player.power, g.player.max_power, &a);
+
     EndTextureMode();
 }
 

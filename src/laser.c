@@ -62,6 +62,23 @@ void InsertEnemyLaserSide(Vector2 start_pos, i32 length, bool left)
     });
 }
 
+void RenderLaserRepeatLightMask(Laser *ar, i32 progress_step)
+{
+    assert(ar != NULL);
+    for (int i = 0; i < progress_step; i++) {
+        Vector2 pos = {
+            .x = ar->start_position.x,
+            .y = ar->start_position.y,
+        };
+        if (ar->left) {
+            pos.x -= (i * ar->sprite.src.width);
+        } else {
+            pos.x += (i * ar->sprite.src.width);
+        }
+        DrawCircle(pos.x, pos.y, ar->sprite.src.width * 4, WHITE);
+    }
+}
+
 void RenderLaserRepeat(Laser *ar, i32 progress_step, Assets *a)
 {
     assert(ar != NULL);
@@ -76,6 +93,48 @@ void RenderLaserRepeat(Laser *ar, i32 progress_step, Assets *a)
             pos.x += (i * ar->sprite.src.width);
         }
         DrawSprite(a->atlas, ar->sprite, pos);
+    }
+}
+
+void DrawLaserLightMask(Laser *arr)
+{
+    assert(arr != NULL);
+    for (int i= 0; i < MAX_LASER; i++) {
+        Laser *temp = &g.laser[i];
+        if (!temp->exist) continue;
+        switch (temp->state) {
+            case LASER_STATE_NONE:
+                // Do nothing
+                break;
+            case LASER_STATE_DELAY: {
+                break;
+            }
+            case LASER_STATE_FIRING: {
+                f32 progress = TimeProgress(&temp->attack_timer);
+                i32 progress_step = Lerp(temp->length, 1., progress);
+                RenderLaserRepeatLightMask(temp, progress_step);
+            }
+                break;
+            case LASER_STATE_SUSTAIN: {
+                    if (g.debug_collision) {
+                        DrawRectangleLines(
+                            temp->start_position.x,
+                            temp->start_position.y, 8,
+                            8,
+                            GREEN
+                        );
+                    }
+
+                    RenderLaserRepeatLightMask(temp, temp->length);
+                }
+                break;
+            case LASER_STATE_DECAY: {
+                    f32 progress = TimeProgress(&temp->decay_timer);
+                    i32 progress_step = Lerp(1., temp->length, progress);
+                    RenderLaserRepeatLightMask(temp, progress_step);
+                }
+                break;
+        }
     }
 }
 
