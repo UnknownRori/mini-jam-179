@@ -11,6 +11,13 @@
 #include "include/utils.h"
 
 
+void DrawHPBar(i32 current, i32 max, Vector2 pos, Vector2 offset)
+{
+    const i32 width = 24;
+    const i32 height = 4;
+    DrawRectangle(pos.x - width / 2., pos.y, width, height, (Color) {116, 79, 70, 255});
+}
+
 void DrawScore(i32 score, Assets *a)
 {
     char buffer[1024] = {0};

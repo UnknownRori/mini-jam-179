@@ -10,6 +10,7 @@
 #include "include/player.h"
 #include "include/sprite.h"
 #include "include/timer.h"
+#include "include/ui.h"
 #include "include/utils.h"
 
 void InsertEnemy(Vector2 pos)
@@ -86,6 +87,7 @@ void DrawEnemy(EnemyBot *arr, Assets *a)
         if (!temp->exists) continue;
 
         DrawSprite(a->atlas, temp->sprite, temp->position);
+        /*DrawHPBar(temp->hp, temp->max_hp, temp->position, (Vector2) {temp->sprite.src.width, temp->sprite.src.height});*/
         if (g.debug_collision) {
             DrawCollisionBox(temp->collision);
         }
