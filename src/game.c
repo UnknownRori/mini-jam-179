@@ -3,6 +3,7 @@
 #include "include/game.h"
 #include "include/assets.h"
 #include "include/audio.h"
+#include "include/logger.h"
 #include "include/resolution.h"
 #include "include/scene.h"
 #include "include/timer.h"
@@ -44,6 +45,7 @@ void GameInit(void)
     SetExitKey(KEY_F12);
     HideCursor();
 
+
     // Setup config
     AudioManagerSetMasterVolume(1.);
     AudioManagerSetSFXVolume(0.7);
@@ -56,6 +58,10 @@ void GameInit(void)
 
     // My stuff
     LoadAssets(&a);
+
+    int size = 0;
+    unsigned char *data = LoadFileData("resources/score.txt", &size);
+    if (data != NULL) g.high_score = *(i32*)data;
 
     // Load Scene
     SceneChangeTransition(SceneDefaultTransition);

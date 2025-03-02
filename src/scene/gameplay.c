@@ -156,10 +156,12 @@ static void GameplayRender()
             if (UITextButton("Continue", (Vector2) {105, 150}, mouse_position, &a)) {
                 SceneChange(0);
                 g.high_score = MIN(g.high_score, g.score);
+                SaveFileData("resources/score.txt", &g.high_score, sizeof(i32));
             }
             if (UITextButton("Exit", (Vector2) {225, 150}, mouse_position, &a)) {
                 SceneChange(1);
                 g.high_score = MIN(g.high_score, g.score);
+                SaveFileData("resources/score.txt", &g.high_score, sizeof(i32));
             }
         }
     EndTextureMode();
