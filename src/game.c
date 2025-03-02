@@ -88,8 +88,8 @@ void GameReset()
     PlayerInit(&g.player);
     ResetEventBuffer();
 
-    InsertEnemyLaserSide((Vector2) {100, -50}, 8);
-    InsertEnemyLaserSide((Vector2) {-100, 40}, -4);
+    InsertEnemyLaserSide((Vector2) {100, -50}, 8, true);
+    InsertEnemyLaserSide((Vector2) {-100, 40}, 18, false);
     InsertWarning((Vector2) {100, 0});
     InsertEnemy((Vector2) {0, 0});
     InsertObstacle((Vector2) {.x = 50, .y = 200}, 8, 0);

@@ -29,16 +29,17 @@ typedef struct Laser {
 
     f32 damage;
     f32 delay;
-    f32 attack_time;
-    f32 sustain_time;
-    f32 decay_time;
+    Timer attack_timer;
+    Timer sustain_timer;
+    Timer decay_timer;
     Timer damage_timer;
 
     LaserStateMachine state;
+    bool left;
     bool exist;
 } Laser;
 
-void InsertEnemyLaserSide(Vector2 start_pos, i32 length);
+void InsertEnemyLaserSide(Vector2 start_pos, i32 length, bool left);
 void InsertLaser(Laser);
 void DrawLaser(Laser *, Assets *);
 // This should be an array

@@ -1,10 +1,11 @@
+#include <raylib.h>
+#include <raymath.h>
 #include "include/laser.h"
 #include "include/collision.h"
 #include "include/game.h"
 #include "include/logger.h"
 #include "include/sprite.h"
 #include "include/timer.h"
-#include <raylib.h>
 
 void InsertLaser(Laser l)
 {
@@ -18,7 +19,7 @@ void InsertLaser(Laser l)
     }
 }
 
-void InsertEnemyLaserSide(Vector2 start_pos, i32 length)
+void InsertEnemyLaserSide(Vector2 start_pos, i32 length, bool left)
 {
 
     Sprite spr = {
@@ -33,6 +34,7 @@ void InsertEnemyLaserSide(Vector2 start_pos, i32 length)
         .rotation = 0,
     };
     InsertLaser((Laser) {
+        .left = left,
         .start_position = start_pos,
         .collision = (CollisionBox) {
             .box = {
@@ -46,12 +48,12 @@ void InsertEnemyLaserSide(Vector2 start_pos, i32 length)
         },
         .damage = 10,
         .damage_timer = TimerInit(2, true),
+        .attack_timer = TimerInit(2, false),
+        .sustain_timer = TimerInit(4, false),
+        .decay_timer = TimerInit(2., false),
         .sprite = spr,
         .state = LASER_STATE_DELAY,
         .delay = 2,
-        .attack_time = 2.,
-        .sustain_time = 12.,
-        .decay_time = 2.,
         .length = length,
     });
 }
@@ -75,7 +77,7 @@ void DrawLaser(Laser *arr, Assets *a)
                     );
                 }
                 break;
-            case LASER_STATE_FIRING:
+            case LASER_STATE_FIRING: {
                 if (g.debug_collision) {
                     DrawRectangleLines(
                         temp->start_position.x,
@@ -84,22 +86,73 @@ void DrawLaser(Laser *arr, Assets *a)
                         RED
                     );
                 }
+                f32 progress = TimeProgress(&temp->attack_timer);
+                i32 progress_step = Lerp(temp->length, 1., progress);
+                /*i32 progress_step = 1. + (1. - progress) * (temp->length - 1.);*/
+                for (int i = 0; i < progress_step; i++) {
+                    Vector2 pos = {
+                        .x = temp->start_position.x,
+                        .y = temp->start_position.y,
+                    };
+                    if (temp->left) {
+                        pos.x -= (i * temp->sprite.src.width);
+                    } else {
+                        pos.x += (i * temp->sprite.src.width);
+                    }
+                    DrawSprite(a->atlas, temp->sprite, pos);
+                }
+            }
                 break;
-            case LASER_STATE_SUSTAIN:
-                    DrawRectangleLines(
-                        temp->start_position.x,
-                        temp->start_position.y, 8,
-                        8,
-                        GREEN
-                    );
+            case LASER_STATE_SUSTAIN: {
+                    if (g.debug_collision) {
+                        DrawRectangleLines(
+                            temp->start_position.x,
+                            temp->start_position.y, 8,
+                            8,
+                            GREEN
+                        );
+                    }
+
+                    for (int i = 0; i < temp->length; i++) {
+                        Vector2 pos = {
+                            .x = temp->start_position.x,
+                            .y = temp->start_position.y,
+                        };
+                        if (temp->left) {
+                            pos.x -= (i * temp->sprite.src.width);
+                        } else {
+                            pos.x += (i * temp->sprite.src.width);
+                        }
+                        DrawSprite(a->atlas, temp->sprite, pos);
+                    }
+                }
                 break;
-            case LASER_STATE_DECAY:
-                    DrawRectangleLines(
-                        temp->start_position.x,
-                        temp->start_position.y, 8,
-                        8,
-                        ORANGE
-                    );
+            case LASER_STATE_DECAY: {
+                    if (g.debug_collision) {
+                        DrawRectangleLines(
+                            temp->start_position.x,
+                            temp->start_position.y, 8,
+                            8,
+                            ORANGE
+                        );
+                    }
+                    f32 progress = TimeProgress(&temp->decay_timer);
+                    i32 progress_step = Lerp(1., temp->length, progress);
+                    __LOG("%d", progress_step);
+
+                    for (int i = 0; i < progress_step; i++) {
+                        Vector2 pos = {
+                            .x = temp->start_position.x,
+                            .y = temp->start_position.y,
+                        };
+                        if (temp->left) {
+                            pos.x -= (i * temp->sprite.src.width);
+                        } else {
+                            pos.x += (i * temp->sprite.src.width);
+                        }
+                        DrawSprite(a->atlas, temp->sprite, pos);
+                }
+                }
                 break;
         }
 
@@ -124,18 +177,17 @@ void UpdateLaser(Laser *arr)
             case LASER_STATE_DELAY:
                 temp->delay -= delta;
                 if (temp->delay < 0) temp->state = LASER_STATE_FIRING;
-                __LOG("Laser [%d] Delay %f", i, temp->delay);
                 break;
             case LASER_STATE_FIRING:
-                temp->attack_time -= delta;
-                if (temp->attack_time < 0) temp->state = LASER_STATE_SUSTAIN;
+                TimerUpdate(&temp->attack_timer);
+                if (TimerCompleted(&temp->attack_timer)) temp->state = LASER_STATE_SUSTAIN;
                 break;
             case LASER_STATE_SUSTAIN:
-                temp->sustain_time -= delta;
-                if (temp->sustain_time < 0) temp->state = LASER_STATE_DECAY;
+                TimerUpdate(&temp->sustain_timer);
+                if (TimerCompleted(&temp->sustain_timer)) temp->state = LASER_STATE_DECAY;
                 break;
             case LASER_STATE_DECAY:
-                temp->decay_time -= delta;
+                TimerUpdate(&temp->decay_timer);
                 break;
         }
 
@@ -153,7 +205,7 @@ void DespawnLaser(Laser *arr)
     {
         Laser *temp = &arr[i];
         if (!temp->exist) continue;
-        if (temp->decay_time > 0) continue;
+        if (!TimerCompleted(&temp->decay_timer)) continue;
         __LOG("Despawning Laser [%d]", i);
 
         temp->exist = false;
