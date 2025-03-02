@@ -146,10 +146,10 @@ void DrawLaser(Laser *arr, Assets *a)
 
 void UpdateLaserCollision(Laser *temp, i32 progress_step)
 {
-    temp->collision.pos.x = temp->left ? temp->start_position.x + temp->sprite.src.width : temp->start_position.x;
+    temp->collision.pos.x = temp->left ? temp->start_position.x - temp->sprite.src.width * progress_step + temp->sprite.src.width
+        : temp->start_position.x;
     temp->collision.pos.y = temp->start_position.y;
-    f32 width = temp->sprite.src.width * progress_step;
-    temp->collision.box.width = temp->left ? -width : width;
+    temp->collision.box.width = temp->sprite.src.width * progress_step;
     temp->collision.box.height = temp->sprite.src.height;
 }
 
