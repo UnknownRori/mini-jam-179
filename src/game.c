@@ -9,6 +9,7 @@
 #include "scene/gameplay.h"
 #include "scene/help.h"
 #include "scene/main_menu.h"
+#include "scene/option.h"
 
 Game g = {0};
 Assets a = {0};
@@ -59,6 +60,7 @@ void GameInit(void)
     SceneAdd(0, GetSceneGameplay());
     SceneAdd(1, GetSceneMainMenu());
     SceneAdd(2, GetSceneHelp());
+    SceneAdd(3, GetSceneOption());
     SceneSwap(1);
 
 }
