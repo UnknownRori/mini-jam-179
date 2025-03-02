@@ -7,9 +7,9 @@
 #include "include/logger.h"
 #include "include/sprite.h"
 #include "include/timer.h"
+#include "include/types.h"
 #include "include/utils.h"
 
-float shake = 0;
 
 void DrawScore(i32 score, Assets *a)
 {
@@ -26,12 +26,20 @@ void DrawScore(i32 score, Assets *a)
 }
 void DrawHP(f32 current, f32 max, Assets *a)
 {
+    static float shake = 0;
+    static i32 blink = 0;
+    static bool should_blink = false;
     shake = MIN(0, shake - GetFrameTime());
+    blink = MIN(0, blink - 1);
     shake = MAX(shake, 4);
+
+    if (blink == 0) should_blink = false;
+    if (blink % 4) should_blink = !should_blink;
 
     EventType event = GetEvent();
     if (event == EVENT_HP_DECREASE) {
-        shake += 1;
+        shake = 2;
+        blink = 8;
         PopEvent();
     }
 
@@ -56,8 +64,8 @@ void DrawHP(f32 current, f32 max, Assets *a)
     src.y = 152;
     src.width = 48;
     src.height = 88;
-    dst.x = 320 + Shake(shake);
-    dst.y = 113 + Shake(shake);
+    dst.x = 320;
+    dst.y = 113;
     dst.width = src.width;
     dst.height = src.height;
 
@@ -69,10 +77,76 @@ void DrawHP(f32 current, f32 max, Assets *a)
     src.width = 40;
     src.height = 16;
     for (int i = 0; i < hp; i++) {
-        dst.x = 323 + Shake(shake);
-        dst.y = 175 - (i * src.height - 4) + Shake(shake);
+        dst.x = 323;
+        dst.y = 175 - (i * src.height - 4);
         dst.width = src.width;
         dst.height = src.height;
+        if (should_blink && i == (hp - 1)) {
+            break;
+        }
+        DrawTexturePro(a->atlas, src, dst, VECTOR_ZERO, 0, WHITE);
+    }
+}
+
+void DrawEnergy(f32 current, f32 max, Assets *a)
+{
+    static float shake = 0;
+    static i32 blink = 0;
+    static bool should_blink = false;
+    shake = MIN(0, shake - GetFrameTime());
+    blink = MIN(0, blink - 1);
+    shake = MAX(shake, 4);
+
+    if (blink == 0) should_blink = false;
+    if (blink % 4) should_blink = !should_blink;
+
+    EventType event = GetEvent();
+    if (event == EVENT_ENERGY_DECREASE) {
+        blink = 8;
+        shake = 2;
+        PopEvent();
+    }
+
+    i32 hp = MIN(0, (current / max) * 5);
+    // Draw Battery
+    Rectangle src = {
+        .x = 64,
+        .y = 240,
+        .width = 16,
+        .height = 16,
+    };
+    Rectangle dst = {
+        .x = 35 + Shake(shake),
+        .y = 200 + Shake(shake),
+        .width = 16,
+        .height = 16,
+    };
+    DrawTexturePro(a->atlas, src, dst, VECTOR_ZERO, 0, WHITE);
+
+    // Draw Slot
+    src.x = 0;
+    src.y = 152;
+    src.width = 48;
+    src.height = 88;
+    dst.x = 20;
+    dst.y = 113;
+    dst.width = src.width;
+    dst.height = src.height;
+
+    DrawTexturePro(a->atlas, src, dst, VECTOR_ZERO, 0, WHITE);
+
+    src.x = 0;
+    src.y = 240;
+    src.width = 40;
+    src.height = 16;
+    for (int i = 0; i < hp; i++) {
+        dst.x = 23;
+        dst.y = 175 - (i * src.height - 4);
+        dst.width = src.width;
+        dst.height = src.height;
+        if (should_blink && i == (hp - 1)) {
+            break;
+        }
         DrawTexturePro(a->atlas, src, dst, VECTOR_ZERO, 0, WHITE);
     }
 }

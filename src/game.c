@@ -65,6 +65,7 @@ void GameLoop(void)
         DrawTexture(a.ui_slot, 0, 0, WHITE);
         DrawScore(MIN(0, -g.camera.target.y / 2.), &a);
         DrawHP(g.player.hp, g.player.max_hp, &a);
+        DrawEnergy(g.player.power, g.player.max_power, &a);
     EndTextureMode();
 
     ClearBackground(WHITE);

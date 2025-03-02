@@ -20,7 +20,8 @@ void PlayerInit(Player* p)
     assert(p != NULL);
     p->hp = 100;
     p->max_hp = 100;
-    p->power = 5;
+    p->power = 100;
+    p->max_power = 100;
     p->speed = PLAYER_SPEED;
     p->position = (Vector2) {
         .x = 0,
@@ -86,12 +87,14 @@ void UpdatePlayer(Player* p, Vector2 mouse)
     p->collision.pos = p->position;
 
     // Shoot
-    if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
+    if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && (g.player.power - SHOOT_ENERGY_COST) > 0) {
         Vector2 dir_norm = Vector2Normalize(dir);
         p->vel = Vector2Add(p->vel, Vector2Scale(dir_norm, p->speed));
         Vector2 vel = Vector2Scale(dir_norm, PLAYER_BULLET_SPEED);
         vel = Vector2Rotate(vel, 180 * DEG2RAD);
 
+        p->power -= SHOOT_ENERGY_COST;
+        PushEvent(EVENT_ENERGY_DECREASE);
         AudioManagerPlaySFXRandomPitch(0, 5, 15);
 
         SpawnPlayerBullet(vel, p->position);

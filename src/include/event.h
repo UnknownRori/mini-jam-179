@@ -10,6 +10,7 @@
 typedef enum EventType {
     EVENT_NONE,
     EVENT_HP_DECREASE,
+    EVENT_ENERGY_DECREASE,
 } EventType;
 
 

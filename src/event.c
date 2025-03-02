@@ -9,7 +9,7 @@ EventType event_buffer[EVENT_BUFFER_SIZE] = {0};
 
 void ResetEventBuffer()
 {
-    event_index = EVENT_BUFFER_SIZE - 1;
+    event_index = 0;
     memset(event_buffer, 0, EVENT_BUFFER_SIZE * sizeof(EventType));
 }
 void PushEvent(EventType event)

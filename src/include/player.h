@@ -21,6 +21,7 @@ typedef struct Player {
     f32 hp;
     f32 max_hp;
     f32 power;
+    f32 max_power;
     bool collided;
 } Player;
 

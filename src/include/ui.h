@@ -23,6 +23,7 @@ typedef struct WarningInfo {
 
 void DrawScore(i32, Assets *);
 void DrawHP(f32, f32, Assets *);
+void DrawEnergy(f32, f32, Assets *);
 
 void InsertWarning(Vector2);
 
