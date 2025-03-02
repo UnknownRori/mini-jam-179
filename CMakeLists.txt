@@ -4,7 +4,7 @@ project(escape-velocity)
 #find_package(raylib 5.0 REQUIRED) # Requires at least version 3.0
 
 set(CMAKE_C_STANDARD 11) # Requires C11 standard
-file(GLOB SOURCES "src/*.c")
+file(GLOB_RECURSE SOURCES "src/*.c")
 
 
 add_subdirectory(raylib)
