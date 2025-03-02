@@ -16,13 +16,13 @@ void DrawScore(i32 score, Assets *a)
     char buffer[1024] = {0};
     Vector2 center = {
         .x = GAME_WIDTH / 2.,
-        .y = 0,
+        .y = 8,
     };
     sprintf(buffer, "%d", score);
     Vector2 origin = MeasureTextEx(a->font, buffer, 8, 2);
     origin.y = 0;
     origin.x /= 2.;
-    DrawTextPro(a->font, buffer, center, origin, 0, 8, 2, (Color) {116, 79, 70, 255});
+    DrawTextPro(a->font, buffer, center, origin, 0, 8, 2, (Color) {178, 156, 151, 255});
 }
 void DrawHP(f32 current, f32 max, Assets *a)
 {
