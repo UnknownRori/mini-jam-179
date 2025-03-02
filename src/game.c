@@ -43,7 +43,10 @@ void GameInit(void)
 {
     // Raylib stuff
     SetExitKey(KEY_F12);
+#if defined(PLATFORM_WEB)
+#else
     HideCursor();
+#endif
 
 
     // Setup config
