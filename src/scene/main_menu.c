@@ -41,7 +41,7 @@ void MainMenuRender()
         DrawParallaxLayer(&g.layer, g.camera.target);
         DrawTextPro(a.font, buffer, (Vector2) {130, 180}, VECTOR_ZERO, 0, 8, 2, (Color) {176, 156, 151, 255});
         DrawTextPro(a.font, "Escape Velocity", pos_title, VECTOR_ZERO, 0, 10, 2, (Color) {176, 156, 151, 255});
-        if (UITextButton("New Run", (Vector2) {155, 80}, mouse_position, &a)) SceneSwap(0);
+        if (UITextButton("New Run", (Vector2) {155, 80}, mouse_position, &a)) SceneChange(0);
         UITextButton("Option", (Vector2) {155, 90}, mouse_position, &a);
         UITextButton("Help", (Vector2) {155, 100}, mouse_position, &a);
         if (UITextButton("Exit", (Vector2) {155, 110}, mouse_position, &a)) g.should_quit = true;;

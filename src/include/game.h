@@ -52,6 +52,11 @@
 #define MAX_ITEM                10
 #define MAX_SCENE               4
 
+typedef enum GameState {
+    GAME_STATE_RUNNING,
+    GAME_STATE_PAUSED,
+    GAME_STATE_GAME_OVER,
+} GameState;
 
 typedef struct Game {
     // GAME ENTITY
@@ -70,6 +75,7 @@ typedef struct Game {
     f32 shakeness;
     i32 score;
     i32 high_score;
+    GameState       state;
 
     ParallaxLayer   layer;
     Wall            wall_left;

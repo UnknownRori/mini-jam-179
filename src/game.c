@@ -39,7 +39,7 @@ void GameLoop(void)
 void GameInit(void)
 {
     // Raylib stuff
-    SetExitKey(KEY_F1);
+    SetExitKey(KEY_F12);
     HideCursor();
 
     // Setup config

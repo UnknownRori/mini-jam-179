@@ -108,7 +108,7 @@ void DrawHP(f32 current, f32 max, Assets *a)
     if (current >= max) {
         DrawTextPro(a->font, "MAX!", (Vector2) {328, 100}, VECTOR_ZERO, 0, 8, 2, (Color) {178, 156, 151, 255});
     } else if (current <= 20) {
-        DrawTextPro(a->font, "LOW!", (Vector2) {24, 100}, VECTOR_ZERO, 0, 8, 2, (Color) {178, 156, 151, 255});
+        DrawTextPro(a->font, "LOW!", (Vector2) {328, 100}, VECTOR_ZERO, 0, 8, 2, (Color) {178, 156, 151, 255});
     }
 }
 
@@ -245,6 +245,26 @@ void DrawWarning(WarningInfo *w, Assets *a)
     }
 }
 
+void UIText(const char *text, Vector2 pos, i32 font_size, Assets *a)
+{
+    const i32 font_space = 2;
+    Vector2 measure = MeasureTextEx(a->font, text, font_size, font_space);
+    Rectangle collision = (Rectangle) {
+        .x = pos.x,
+        .y = pos.y,
+        .width = measure.x,
+        .height = measure.y,
+    };
+
+    collision.x -= 2;
+    collision.y -= 2;
+    collision.width += 4;
+    collision.height += 4;
+
+    DrawRectangleRec(collision, (Color) {62, 32, 24, 255});
+    DrawTextPro(a->font, text, pos, VECTOR_ZERO, 0, font_size, font_space, (Color) {178, 156, 151, 255});
+}
+
 
 bool UITextButton(const char *text, Vector2 pos, Vector2 mouse, Assets *a)
 {
@@ -258,6 +278,14 @@ bool UITextButton(const char *text, Vector2 pos, Vector2 mouse, Assets *a)
         .height = measure.y,
     };
     bool is_hovered = CheckCollisionPointRec(mouse, collision);
+
+    collision.x -= 2;
+    collision.y -= 2;
+    collision.width += 4;
+    collision.height += 4;
+
+    DrawRectangleRec(collision, (Color) {62, 32, 24, 255});
+
     if (is_hovered) {
         DrawTextPro(a->font, text, pos, VECTOR_ZERO, 0, font_size, font_space, (Color) {178, 156, 151, 255});
         return IsMouseButtonPressed(MOUSE_BUTTON_LEFT);

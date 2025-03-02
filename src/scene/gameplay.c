@@ -21,8 +21,6 @@
 #include "../include/utils.h"
 #include "../include/wall.h"
 
-bool pause = false;
-
 void GameReset()
 {
     memset(g.enemy, 0, sizeof(EnemyBot) * MAX_ENEMY);
@@ -33,6 +31,8 @@ void GameReset()
 
     PlayerInit(&g.player);
     ResetEventBuffer();
+    g.score = 0;
+    g.state = GAME_STATE_RUNNING;
 
     /*SpawnItem((Vector2) {20, 20}, 5, ITEM_TYPE_ENERGY);*/
 
@@ -78,30 +78,36 @@ void GameplayUpdate()
     Vector2 mouse_position_world = GetScreenToWorld2D(mouse_position, g.camera);
     g.camera.target = g.player.position;
 
-    if (IsKeyPressed(KEY_F2)) {
+    if (IsKeyPressed(KEY_F1)) {
         g.debug_collision = !g.debug_collision;
     }
-    g.score = MIN(g.score, -g.camera.target.y / 2.);
-    g.high_score = MIN(g.high_score, g.score);
+    if (IsKeyPressed(KEY_ESCAPE) && g.state != GAME_STATE_GAME_OVER) {
+        g.state = g.state == GAME_STATE_PAUSED ? GAME_STATE_RUNNING : GAME_STATE_PAUSED;
+    }
+    if (g.player.hp < 0) g.state = GAME_STATE_GAME_OVER;
 
-    SpawnEnemy(&g.camera, 7);
-    SpawnObstacle(&g.camera, 10);
-    SpawnLaser(&g.camera, 2);
+    if (g.state == GAME_STATE_RUNNING) {
+        g.score = MIN(g.score, -g.camera.target.y / 2.);
 
-    DespawnEnemy(g.enemy, &g.camera);
-    DespawnBullet(g.bullet, &g.camera);
-    DespawnObstacle(g.obstacle, &g.camera);
-    DespawnLaser(g.laser);
-    DespawnItem(g.item, &g.camera);
+        SpawnEnemy(&g.camera, 7);
+        SpawnObstacle(&g.camera, 10);
+        SpawnLaser(&g.camera, 2);
 
-    UpdateWarning(g.warning_info);
-    UpdateEnemy(g.enemy, &g.player);
-    UpdateBullet(g.bullet);
-    UpdateLaser(g.laser);
-    UpdateItem(g.item);
-    UpdatePlayer(&g.player, mouse_position_world);
+        DespawnEnemy(g.enemy, &g.camera);
+        DespawnBullet(g.bullet, &g.camera);
+        DespawnObstacle(g.obstacle, &g.camera);
+        DespawnLaser(g.laser);
+        DespawnItem(g.item, &g.camera);
 
-    CameraShake(&g.camera, &g.shakeness, 1);
+        UpdateWarning(g.warning_info);
+        UpdateEnemy(g.enemy, &g.player);
+        UpdateBullet(g.bullet);
+        UpdateLaser(g.laser);
+        UpdateItem(g.item);
+        UpdatePlayer(&g.player, mouse_position_world);
+
+        CameraShake(&g.camera, &g.shakeness, 1);
+    }
 }
 
 static void GameplayRender()
@@ -127,6 +133,35 @@ static void GameplayRender()
         DrawScore(g.score, &a);
         DrawHP(g.player.hp, g.player.max_hp, &a);
         DrawEnergy(g.player.power, g.player.max_power, &a);
+
+        if (g.state == GAME_STATE_PAUSED) {
+            UIText("Game Paused", (Vector2) {115, 50}, 12, &a);
+            if (UITextButton("Continue", (Vector2) {105, 90}, mouse_position, &a)) {
+                g.state = GAME_STATE_RUNNING;
+            }
+            if (UITextButton("Exit", (Vector2) {225, 90}, mouse_position, &a)) {
+                SceneChange(1);
+            }
+
+        } else if (g.state == GAME_STATE_GAME_OVER) {
+            char buffer[32] = {0};
+            sprintf(buffer, "SCORE : %d", g.score);
+
+            UIText("Game Over", (Vector2) {125, 50}, 12, &a);
+            UIText(buffer, (Vector2) {115, 95}, 8, &a);
+
+            sprintf(buffer, "HI SCORE : %d", g.high_score);
+            UIText(buffer, (Vector2) {115, 115}, 8, &a);
+            if (g.score > g.high_score) UIText("New High Score!", (Vector2) {115, 75}, 8, &a);
+            if (UITextButton("Continue", (Vector2) {105, 150}, mouse_position, &a)) {
+                SceneChange(0);
+                g.high_score = MIN(g.high_score, g.score);
+            }
+            if (UITextButton("Exit", (Vector2) {225, 150}, mouse_position, &a)) {
+                SceneChange(1);
+                g.high_score = MIN(g.high_score, g.score);
+            }
+        }
     EndTextureMode();
 }
 
