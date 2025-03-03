@@ -198,13 +198,13 @@ static void GameplayRender()
 
             sprintf(buffer, "HI SCORE : %d", g.high_score);
             UIText(buffer, (Vector2) {115, 80}, 8, &a);
-            if (g.score > g.high_score) UIText("New High Score!", (Vector2) {115, 75}, 8, &a);
-            if (UITextButton("Continue", (Vector2) {105, 110}, mouse_position, &a)) {
+            if (g.score > g.high_score) UIText("New High Score!", (Vector2) {115, 95}, 8, &a);
+            if (UITextButton("Continue", (Vector2) {105, 120}, mouse_position, &a)) {
                 SceneChange(0);
                 g.high_score = MIN(g.high_score, g.score);
                 SaveFileData("resources/score.txt", &g.high_score, sizeof(i32));
             }
-            if (UITextButton("Exit", (Vector2) {225, 110}, mouse_position, &a)) {
+            if (UITextButton("Exit", (Vector2) {225, 120}, mouse_position, &a)) {
                 SceneChange(1);
                 g.high_score = MIN(g.high_score, g.score);
                 SaveFileData("resources/score.txt", &g.high_score, sizeof(i32));
