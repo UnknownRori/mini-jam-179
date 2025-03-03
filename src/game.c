@@ -51,7 +51,7 @@ void GameLoop(void)
 void GameInit(void)
 {
     // Raylib stuff
-    SetExitKey(KEY_F12);
+    SetExitKey(KEY_F10);
 #if defined(PLATFORM_WEB)
 #else
     HideCursor();

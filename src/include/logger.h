@@ -8,7 +8,7 @@
 
 #define __FILENAME__ (strrchr(__FILE__, '/') ? strrchr(__FILE__, '/') + 1 : __FILE__)
 
-#define DEBUG
+/*#define DEBUG*/
 
 #ifdef DEBUG
 #define __LOG(format, ...) printf("\e[1m[ LOG ] | %s (%d): "format" \e[0m\n", __FILENAME__, __LINE__, ##__VA_ARGS__)

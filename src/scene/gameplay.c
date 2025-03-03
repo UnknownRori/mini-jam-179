@@ -59,7 +59,6 @@ void GameReset()
         .depth = 16,
         .positionX = 110,
     };
-    g.debug_collision = 1;
     g.camera = (Camera2D) {
         .rotation = 0,
         .zoom = 1.,

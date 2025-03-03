@@ -71,6 +71,7 @@ void DrawPlayer(Player* p, Assets *a, Vector2 mouse)
 
     // AIM
     Vector2 dir = Vector2Subtract(mouse, dir);
+    __LOG("%f, %f", dir.x, dir.y);
     DrawLineV(p->position, dir, (Color) {116, 79, 70, 255});
 }
 
