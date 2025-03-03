@@ -25,6 +25,7 @@ void GameLoop(void)
         g.debug_collision = !g.debug_collision;
     }
 
+    AudioManagerUpdateMusic();
     SceneUpdate();
 
     BeginDrawing();
@@ -59,8 +60,8 @@ void GameInit(void)
 
     // Setup config
     AudioManagerSetMasterVolume(1.);
-    AudioManagerSetSFXVolume(0.7);
-    AudioManagerSetBGMVolume(0.5);
+    AudioManagerSetSFXVolume(0.5);
+    AudioManagerSetBGMVolume(0.3);
 
     // Hard Reset
     memset(&g, 0, sizeof(Game));

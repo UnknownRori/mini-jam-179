@@ -6,6 +6,7 @@
 
 #include "../include/logger.h"
 #include "../include/game.h"
+#include "../include/audio.h"
 #include "../include/assets.h"
 #include "../include/bullet.h"
 #include "../include/cursor.h"
@@ -72,6 +73,7 @@ void GameReset()
 void GameplayInit()
 {
     GameReset();
+    AudioManagerPlayMusic(1);
 }
 
 void GameplayUpdate()

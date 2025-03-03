@@ -50,4 +50,7 @@ void LoadAssets(Assets *a)
     a->sfx[4] = LoadSound("resources/hit-player.wav");
     a->sfx[5] = LoadSound("resources/pickup.wav");
     a->sfx[6] = LoadSound("resources/hit-enemy.wav");
+
+    a->bgm[0] = LoadMusicStream("resources/red-beam.mp3");
+    a->bgm[1] = LoadMusicStream("resources/time.mp3");
 }

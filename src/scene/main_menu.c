@@ -6,12 +6,14 @@
 
 #include "../include/game.h"
 #include "../include/logger.h"
+#include "../include/audio.h"
 #include "../include/utils.h"
 #include "../include/cursor.h"
 #include "../include/ui.h"
 
 void MainMenuInit()
 {
+    AudioManagerPlayMusic(0);
     g.layer = (ParallaxLayer) {
         .speedY = 1,
         .speedX = 1,
