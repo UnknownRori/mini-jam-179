@@ -47,12 +47,12 @@
 
 #define GRAVITY                 -200
 
-#define MAX_ENEMY               10
-#define MAX_OBSTACLE            4
+#define MAX_ENEMY               15
+#define MAX_OBSTACLE            6
 #define MAX_BULLET              200
 #define MAX_LASER               20
 #define MAX_WARNING_INFO        10
-#define MAX_ITEM                10
+#define MAX_ITEM                20
 #define MAX_SCENE               4
 #define MAX_PARTICLE            50
 
