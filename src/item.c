@@ -168,7 +168,7 @@ void DespawnItem(Item *arr, Camera2D *cam)
     for (int i = 0; i < MAX_ITEM; i++) {
         Item *temp = &g.item[i];
         if (!temp->exist) continue;
-        if (temp->position.y > cam->target.y + GAME_HEIGHT * 2) {
+        if (temp->position.y > cam->target.y + GAME_HEIGHT * 4) {
         __LOG("Despawn item %d", i);
             temp->exist = false;
         }
