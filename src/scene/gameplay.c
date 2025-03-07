@@ -89,8 +89,8 @@ void GameplayUpdate()
     if (g.state == GAME_STATE_RUNNING) {
         g.score = MIN(g.score, -g.camera.target.y / 2.);
 
-        SpawnEnemy(&g.camera, 7);
-        SpawnObstacle(&g.camera, 10);
+        SpawnEnemy(&g.camera, 5);
+        SpawnObstacle(&g.camera, 6);
         SpawnLaser(&g.camera, 2);
 
         DespawnEnemy(g.enemy, &g.camera);

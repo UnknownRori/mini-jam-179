@@ -73,7 +73,7 @@ void DespawnEnemy(EnemyBot * arr, Camera2D * cam)
     for (int i = 0; i < MAX_ENEMY; i++) {
         EnemyBot *temp = &g.enemy[i];
         if (!temp->exists) continue;
-        if (temp->position.y > cam->target.y + GAME_HEIGHT * 2 || temp->hp < 0) {
+        if (temp->position.y > cam->target.y + GAME_HEIGHT * 3 || temp->hp < 0) {
             DropRandomItem(temp->position, ENEMY_DROP_CHANCE);
             AudioManagerPlaySFXRandomPitch(2, 5, 15);
             SpawnMediumExplosion((Vector2) {

@@ -34,7 +34,7 @@
 
 #define PLAYER_SPEED            300
 #define PLAYER_BULLET_SPEED     150
-#define PLAYER_DAMAGE_POWER_LOW 3.5
+#define PLAYER_DAMAGE_POWER_LOW 10.
 
 #define SHOOT_ENERGY_COST       1.
 
@@ -47,12 +47,12 @@
 
 #define GRAVITY                 -200
 
-#define MAX_ENEMY               10
-#define MAX_OBSTACLE            4
+#define MAX_ENEMY               15
+#define MAX_OBSTACLE            6
 #define MAX_BULLET              200
 #define MAX_LASER               20
 #define MAX_WARNING_INFO        10
-#define MAX_ITEM                10
+#define MAX_ITEM                20
 #define MAX_SCENE               4
 #define MAX_PARTICLE            50
 
