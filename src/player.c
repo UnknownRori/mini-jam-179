@@ -160,7 +160,7 @@ void UpdatePlayer(Player* p, Vector2 mouse)
     }
 
     p->collided = collision;
-    if (p->collided) {
+    if (p->collided && (p->vel.y > 40. || p->vel.y < -40.)) {
         if (!AudioManagerIsPlayingSFX(3)) {
             AudioManagerPlaySFXRandomPitch(3, 5, 15);
         }
