@@ -119,11 +119,15 @@ void UpdatePlayer(Player* p, Vector2 mouse)
 
     // Collision
     bool collision = false;
-    if (WallIntersectCollisionBox(&g.wall_left, &p->collision) && !p->collided) {
+    Vector2 position = p->position;
+    position = Vector2Add(p->position, Vector2Scale(p->vel, delta));
+    CollisionBox collision_box = p->collision;
+    collision_box.pos = position;
+    if (WallIntersectCollisionBox(&g.wall_left, &collision_box) && !p->collided) {
         p->vel.x = -p->vel.x;
         collision = true;
     }
-    if (WallIntersectCollisionBox(&g.wall_right, &p->collision)&& !p->collided) {
+    if (WallIntersectCollisionBox(&g.wall_right, &collision_box)&& !p->collided) {
         p->vel.x = -p->vel.x;
         collision = true;
     }
@@ -131,7 +135,7 @@ void UpdatePlayer(Player* p, Vector2 mouse)
         Obstacle *temp = &g.obstacle[i];
         if (!temp->exist) continue;
 
-        if (CheckCollisionObstacle(temp, &p->collision) && !p->collided) {
+        if (CheckCollisionObstacle(temp, &collision_box) && !p->collided) {
             p->vel.x = -(p->vel.x / 2.);
             p->vel.y = -p->vel.y;
             collision = true;
@@ -156,7 +160,7 @@ void UpdatePlayer(Player* p, Vector2 mouse)
     }
 
     p->collided = collision;
-    if (p->collided) {
+    if (p->collided && (p->vel.y > 40. || p->vel.y < -40.)) {
         if (!AudioManagerIsPlayingSFX(3)) {
             AudioManagerPlaySFXRandomPitch(3, 5, 15);
         }
