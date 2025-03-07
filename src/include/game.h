@@ -34,7 +34,7 @@
 
 #define PLAYER_SPEED            300
 #define PLAYER_BULLET_SPEED     150
-#define PLAYER_DAMAGE_POWER_LOW 3.5
+#define PLAYER_DAMAGE_POWER_LOW 10.
 
 #define SHOOT_ENERGY_COST       1.
 
