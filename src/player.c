@@ -7,6 +7,7 @@
 #include "include/event.h"
 #include "include/game.h"
 #include "include/player.h"
+#include "include/global_sprites.h"
 #include "include/laser.h"
 #include "include/logger.h"
 #include "include/obstacle.h"
@@ -35,28 +36,8 @@ void PlayerInit(Player* p)
         .width = 14,
         .height = 14,
     };
-    p->turret = (Sprite){
-        .flipX = false,
-        .rotation = 0,
-        .scale = 1,
-        .src = (Rectangle) {
-            .x = 0,
-            .y = 0,
-            .width = 16,
-            .height = 16,
-        },
-    };
-    p->core = (Sprite){
-        .flipX = false,
-        .rotation = 0,
-        .scale = 1,
-        .src = (Rectangle) {
-            .x = 16,
-            .y = 0,
-            .width = 16,
-            .height = 16,
-        },
-    };
+    p->turret = PLAYER_TURRET_SPRITE;
+    p->core = PLAYER_SPRITE;
 }
 void DrawPlayer(Player* p, Assets *a, Vector2 mouse)
 {

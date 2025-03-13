@@ -3,6 +3,7 @@
 #include "include/obstacle.h"
 #include "include/collision.h"
 #include "include/game.h"
+#include "include/global_sprites.h"
 #include "include/logger.h"
 #include "include/sprite.h"
 #include "include/utils.h"
@@ -15,6 +16,8 @@ void InsertObstacle(Vector2 pos, i32 length, i32 flags)
         Obstacle *temp = &g.obstacle[i];
         if (temp->exist) continue;
         __LOG("Spawning Obstacle %d", i);
+        Sprite spr = OBSTACLE_END_SPRITE;
+        spr.flipX = ((flags & OBSTACLE_FLAG_LEFT) == OBSTACLE_FLAG_LEFT) ? 0 : 1;
         *temp = (Obstacle) {
             .length = length,
             .position = pos,
@@ -27,28 +30,8 @@ void InsertObstacle(Vector2 pos, i32 length, i32 flags)
                     .height = OBSTACLE_HEIGHT,
                 },
             },
-            .end = (Sprite) {
-                .flipX = ((flags & OBSTACLE_FLAG_LEFT) == OBSTACLE_FLAG_LEFT) ? 0 : 1,
-                .rotation = 0,
-                .scale = 1,
-                .src = (Rectangle) {
-                    .x = 16,
-                    .y = 56,
-                    .width = OBSTACLE_WIDTH,
-                    .height = OBSTACLE_HEIGHT,
-                },
-            },
-            .body = (Sprite) {
-                .flipX = 0,
-                .rotation = 0,
-                .scale = 1,
-                .src = (Rectangle) {
-                    .x = 8,
-                    .y = 56,
-                    .width = OBSTACLE_WIDTH,
-                    .height = OBSTACLE_HEIGHT,
-                },
-            },
+            .end = spr,
+            .body = OBSTACLE_SPRITE,
             .flags = flags,
             .exist = true,
         };

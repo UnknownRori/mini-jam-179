@@ -6,6 +6,7 @@
 #include "include/bullet.h"
 #include "include/collision.h"
 #include "include/game.h"
+#include "include/global_sprites.h"
 #include "include/item.h"
 #include "include/logger.h"
 #include "include/particle.h"
@@ -35,17 +36,7 @@ void InsertEnemy(Vector2 pos)
                 .height = 16,
             },
         };
-        temp->sprite = (Sprite){
-            .flipX = 0,
-            .rotation = 0,
-            .scale = 1.,
-            .src = (Rectangle) {
-                .x = 0,
-                .y = 16,
-                .width = 16,
-                .height = 16,
-            }
-        };
+        temp->sprite = ROBOT_SPRITE;
         break;
     }
 }
