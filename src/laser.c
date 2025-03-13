@@ -5,6 +5,7 @@
 #include "include/assets.h"
 #include "include/collision.h"
 #include "include/game.h"
+#include "include/global_sprites.h"
 #include "include/logger.h"
 #include "include/sprite.h"
 #include "include/timer.h"
@@ -26,17 +27,7 @@ void InsertLaser(Laser l)
 void InsertEnemyLaserSide(Vector2 start_pos, i32 length, bool left)
 {
 
-    Sprite spr = {
-        .flipX = false,
-        .src = {
-            .x = 0,
-            .y = 112,
-            .width = 8,
-            .height = 40,
-        },
-        .scale = 1,
-        .rotation = 0,
-    };
+    Sprite spr = SIDE_LASER_SPRITE;
     InsertLaser((Laser) {
         .left = left,
         .start_position = start_pos,

@@ -8,32 +8,9 @@
 #include "include/logger.h"
 #include "include/game.h"
 #include "include/sprite.h"
+#include "include/global_sprites.h"
 #include "include/types.h"
 #include "include/utils.h"
-
-const Sprite HP_SPRITE = (Sprite) {
-    .flipX = false,
-    .rotation = 0,
-    .scale = 1,
-    .src = (Rectangle) {
-        .x = 72,
-        .y = 224,
-        .width = 8,
-        .height = 8,
-    },
-};
-
-const Sprite ENERGY_SPRITE = (Sprite) {
-    .flipX = false,
-    .rotation = 0,
-    .scale = 1.,
-    .src = (Rectangle) {
-        .x = 72,
-        .y = 232,
-        .width = 8,
-        .height = 8,
-    },
-};
 
 void DropRandomItem(Vector2 pos, i32 threshold)
 {
@@ -102,10 +79,10 @@ void DrawItem(Item *arr, Assets *a)
             case ITEM_TYPE_NONE:
                 assert(false);
             case ITEM_TYPE_ENERGY:
-                spr = ENERGY_SPRITE;
+                spr = ENERGY_ITEM_SPRITE;
                 break;
             case ITEM_TYPE_HP:
-                spr = HP_SPRITE;
+                spr = HP_ITEM_SPRITE;
                 break;
         }
 

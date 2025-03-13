@@ -7,6 +7,7 @@
 #include "include/enemy.h"
 #include "include/event.h"
 #include "include/game.h"
+#include "include/global_sprites.h"
 #include "include/logger.h"
 #include "include/particle.h"
 #include "include/sprite.h"
@@ -26,17 +27,7 @@ void SpawnEnemyBullet(Vector2 vel, Vector2 position)
             },
         },
         .group = ENEMY_BULLET_GROUP,
-        .sprite = (Sprite) {
-            .flipX = false,
-            .rotation = 0,
-            .scale = 1,
-            .src = (Rectangle) {
-                .x = 8,
-                .y = 104,
-                .width = 8,
-                .height = 8,
-            },
-        },
+        .sprite = ENEMY_BULLET_SPRITE
     };
     InsertBullet(b);
 }
@@ -56,17 +47,7 @@ void SpawnPlayerBullet(Vector2 vel, Vector2 position)
             },
         },
         .group = PLAYER_BULLET_GROUP,
-        .sprite = (Sprite) {
-            .flipX = false,
-            .rotation = 0,
-            .scale = 1,
-            .src = (Rectangle) {
-                .x = 0,
-                .y = 104,
-                .width = 8,
-                .height = 8,
-            },
-        },
+        .sprite = PLAYER_BULLET_SPRITE,
     };
     InsertBullet(b);
 }
