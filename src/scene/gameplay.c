@@ -118,7 +118,7 @@ void DrawLightMask()
 {
     BeginTextureMode(a.light_mask);
         ClearBackground((Color) {106, 109, 132, 200});
-        DrawRectangle(0, 0, 82, 240, WHITE);
+        DrawRectangle(0, 0, 80, 240, WHITE);
         DrawRectangle(305, 0, 82, 240, WHITE);
         BeginMode2D(g.camera);
             DrawCircle(g.player.position.x, g.player.position.y, 80, WHITE);
