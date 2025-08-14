@@ -39,7 +39,7 @@ int main(int argc, char** argv)
 
     if (strcmp(platform, "web") == 0) {
         const char *cc = "./build/nob_web";
-        nob_cmd_append(&cmd, NOB_REBUILD_URSELF(cc, "./src-build/nob_desktop.c"));
+        nob_cmd_append(&cmd, NOB_REBUILD_URSELF(cc, "./src-build/nob_web.c"));
         if (!nob_cmd_run_sync(cmd)) return 1;
 
         cmd.count = 0;

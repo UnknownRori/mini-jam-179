@@ -37,15 +37,8 @@ int build_dist()
     nob_mkdir_if_not_exists(DIST_PATH);
 
 
-#if defined(_WIN32) || defined(_WIN64)
-    const char* output_exe = nob_temp_sprintf("%s/mini-jam-179.exe", BUILD_PATH);
-    const char* out = nob_temp_sprintf("%s/mini-jam-179.exe", DIST_PATH);
-#elif defined(__linux__)
-    const char* output_exe = nob_temp_sprintf("%s/mini-jam-179", BUILD_PATH);
-    const char* out = nob_temp_sprintf("%s/mini-jam-179", DIST_PATH);
-#else
-    #error "Unsupported OS"
-#endif
+    const char* output_exe = nob_temp_sprintf("%s/mini-jam-179.html", BUILD_PATH);
+    const char* out = nob_temp_sprintf("%s/mini-jam-179.html", DIST_PATH);
 
     nob_copy_file(output_exe, out);
     const char* resources = DIST_PATH"/resources";
@@ -71,7 +64,7 @@ int build_project()
         nob_da_append(&project_obj, out_path);
         if (nob_needs_rebuild(out_path, &in_path, 1)) {
             cmd.count = 0;
-            nob_cmd_append(&cmd, "x86_64-w64-mingw32-gcc");
+            nob_cmd_append(&cmd, "emcc");
             nob_cc_inputs(&cmd, "-c", in_path);
             nob_cmd_append(&cmd, "-I"RAYLIB_SRC);
             nob_cmd_append(&cmd, "-L./build");
@@ -84,10 +77,10 @@ int build_project()
 
     if (!nob_procs_wait(project_procs)) nob_return_defer(false);
 
-    const char* output_exe = nob_temp_sprintf("./build/mini-jam-179");
+    const char* output_exe = nob_temp_sprintf("./build/mini-jam-179.html");
     if (nob_needs_rebuild(output_exe, project_obj.items, project_obj.count)) {
         cmd.count = 0;
-        nob_cmd_append(&cmd, "gcc");
+        nob_cmd_append(&cmd, "emcc");
 
         for (size_t i = 0; i < NOB_ARRAY_LEN(minijam_module); i++) {
             const char* in_path = nob_temp_sprintf("%s/%s.o", project_build_path, minijam_module[i]);
@@ -95,10 +88,12 @@ int build_project()
         }
 
         nob_cmd_append(&cmd, "-L./build/raylib/");
-        nob_cmd_append(&cmd, "-lraylib");
-        nob_cmd_append(&cmd, "-lwinmm");
-        nob_cmd_append(&cmd, "-lgdi32");
-        nob_cmd_append(&cmd, "-lopengl32");
+        nob_cmd_append(&cmd, "-I./build/raylib/");
+        nob_cmd_append(&cmd, "-DPLATFORM_WEB");
+        nob_cmd_append(&cmd, "--preload-file resources");
+        nob_cmd_append(&cmd, "-s ASSERTIONS");
+        nob_cmd_append(&cmd, "-s USE_GLFW=3 -s ASYNCIFY");
+        nob_cmd_append(&cmd, "-s TOTAL_STACK=64MB -s INITIAL_MEMORY=128MB");
         nob_cc_output(&cmd, output_exe);
 
         if (!nob_cmd_run_sync(cmd)) nob_return_defer(false);
@@ -129,10 +124,10 @@ int build_raylib()
         nob_da_append(&raylib_obj, out_path);
         if (nob_needs_rebuild(out_path, &in_path, 1)) {
             cmd.count = 0;
-            nob_cmd_append(&cmd, "x86_64-w64-mingw32-gcc");
+            nob_cmd_append(&cmd, "emcc");
             nob_cc_inputs(&cmd, "-c", in_path);
             nob_cmd_append(&cmd, "-I./raylib/src/external/glfw/include/");
-            nob_cmd_append(&cmd, "-DPLATFORM_DESKTOP");
+            nob_cmd_append(&cmd, "-DPLATFORM_WEB");
             nob_cc_output(&cmd, out_path);
 
             Nob_Proc proc = nob_cmd_run_async(cmd);
@@ -143,12 +138,11 @@ int build_raylib()
     if (!nob_procs_wait(raylib_procs)) nob_return_defer(false);
 
 
-#if defined(_WIN32) || defined(_WIN64)
     const char* lib_path = nob_temp_sprintf("%s/libraylib.a", raylib_build_path);
     if (nob_needs_rebuild(lib_path, raylib_obj.items, raylib_obj.count)) {
         cmd.count = 0;
-        nob_cmd_append(&cmd, "ar");
-        nob_cmd_append(&cmd, "-crs", lib_path);
+        nob_cmd_append(&cmd, "emar");
+        nob_cmd_append(&cmd, "rcs", lib_path);
         for (size_t i = 0; i < NOB_ARRAY_LEN(raylib_module); i++) {
             const char* in_path = nob_temp_sprintf("%s/%s.o", raylib_build_path, raylib_module[i]);
             nob_cc_inputs(&cmd, in_path);
@@ -156,22 +150,6 @@ int build_raylib()
         if (!nob_cmd_run_sync(cmd)) nob_return_defer(false);
     }
 
-#elif defined(__linux__)
-    const char* lib_path = nob_temp_sprintf("%s/libraylib.a", raylib_build_path);
-    if (nob_needs_rebuild(lib_path, raylib_obj.items, raylib_obj.count)) {
-        cmd.count = 0;
-        nob_cmd_append(&cmd, "gcc");
-        nob_cmd_append(&cmd, "-shared", "-o", lib_path);
-        for (size_t i = 0; i < NOB_ARRAY_LEN(raylib_module); i++) {
-            const char* in_path = nob_temp_sprintf("%s/%s.o", raylib_build_path, raylib_module[i]);
-            nob_cc_inputs(&cmd, in_path);
-        }
-        if (!nob_cmd_run_sync(cmd)) nob_return_defer(false);
-    }
-
-#else
-    #error "Unsupported OS"
-#endif
 
 
 defer:
