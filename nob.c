@@ -18,7 +18,7 @@ int main(int argc, char** argv)
     const char *program = nob_shift_args(&argc, &argv);
     if (argc <= 0) {
         const char* usage = nob_temp_sprintf("Usage %s <platform>", program);
-        nob_log(NOB_INFO, usage);
+        nob_log(NOB_INFO, "%s", usage);
     }
 
     const char *platform = nob_shift(argv, argc);
@@ -38,6 +38,7 @@ int main(int argc, char** argv)
     }
 
     if (strcmp(platform, "web") == 0) {
+        nob_log(NOB_INFO, "Please note that this is still experimental and it may not working properly");
         const char *cc = "./build/nob_web";
         nob_cmd_append(&cmd, NOB_REBUILD_URSELF(cc, "./src-build/nob_web.c"));
         if (!nob_cmd_run_sync(cmd)) return 1;
