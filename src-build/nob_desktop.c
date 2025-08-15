@@ -133,6 +133,10 @@ int build_raylib()
             nob_cc_inputs(&cmd, "-c", in_path);
             nob_cmd_append(&cmd, "-I./raylib/src/external/glfw/include/");
             nob_cmd_append(&cmd, "-DPLATFORM_DESKTOP");
+#if defined(__linux__)
+            nob_cmd_append(&cmd, "-D_GLFW_X11");
+            nob_cmd_append(&cmd, "-fPIC");
+#endif
             nob_cc_output(&cmd, out_path);
 
             Nob_Proc proc = nob_cmd_run_async(cmd);
