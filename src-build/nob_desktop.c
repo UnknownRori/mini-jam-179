@@ -71,7 +71,7 @@ int build_project()
         nob_da_append(&project_obj, out_path);
         if (nob_needs_rebuild(out_path, &in_path, 1)) {
             cmd.count = 0;
-            nob_cc(&cmd);
+            nob_cmd_append(&cmd, "gcc");
             nob_cc_inputs(&cmd, "-c", in_path);
             nob_cmd_append(&cmd, "-I"RAYLIB_SRC);
             nob_cmd_append(&cmd, "-L./build");
@@ -87,7 +87,7 @@ int build_project()
     const char* output_exe = nob_temp_sprintf("./build/mini-jam-179");
     if (nob_needs_rebuild(output_exe, project_obj.items, project_obj.count)) {
         cmd.count = 0;
-            nob_cc(&cmd);
+        nob_cmd_append(&cmd, "gcc");
 
         for (size_t i = 0; i < NOB_ARRAY_LEN(minijam_module); i++) {
             const char* in_path = nob_temp_sprintf("%s/%s.o", project_build_path, minijam_module[i]);
@@ -129,7 +129,7 @@ int build_raylib()
         nob_da_append(&raylib_obj, out_path);
         if (nob_needs_rebuild(out_path, &in_path, 1)) {
             cmd.count = 0;
-            nob_cc(&cmd);
+            nob_cmd_append(&cmd, "gcc");
             nob_cc_inputs(&cmd, "-c", in_path);
             nob_cmd_append(&cmd, "-I./raylib/src/external/glfw/include/");
             nob_cmd_append(&cmd, "-DPLATFORM_DESKTOP");
@@ -160,7 +160,7 @@ int build_raylib()
     const char* lib_path = nob_temp_sprintf("%s/libraylib.a", raylib_build_path);
     if (nob_needs_rebuild(lib_path, raylib_obj.items, raylib_obj.count)) {
         cmd.count = 0;
-        nob_cc(&cmd);
+        nob_cmd_append(&cmd, "gcc");
         nob_cmd_append(&cmd, "-shared", "-o", lib_path);
         for (size_t i = 0; i < NOB_ARRAY_LEN(raylib_module); i++) {
             const char* in_path = nob_temp_sprintf("%s/%s.o", raylib_build_path, raylib_module[i]);
